@@ -4,11 +4,12 @@
     <property name="file.mode.writable" value="0775"/>
     <property name="path.bin" value="${path.root}/bin"/>
     <property name="path.build" value="${path.root}/build"/>
+    <property name="path.vendor" value="${path.root}/vendor"/>
     <property name="path.composer.executable" value="composer"/>
     <property name="path.php.executable" value="php"/>
     <property name="path.phpcs.executable" value="${path.bin}/phpcs"/>
-    <property name="path.phpcs.ruleset" value="${path.src}/CodeSniffer/ruleset.xml"/>
-    <property name="path.phpcs.ruleset-tests" value="${path.src}/CodeSniffer/ruleset-tests.xml"/>
+    <property name="path.phpcs.ruleset" value="${path.vendor}/dogma/dogma-dev/src/CodeSniffer/ruleset.xml"/>
+    <property name="path.phpcs.ruleset-tests" value="${path.vendor}/dogma/dogma-dev/src/CodeSniffer/ruleset-tests.xml"/>
     <property name="path.phplint.executable" value="${path.bin}/parallel-lint"/>
     <property name="path.phpstan.executable" value="${path.bin}/phpstan"/>
     <property name="path.phpstan.config" value="${path.build}/phpstan.neon"/>
@@ -19,12 +20,12 @@
     <property name="path.tester.executable" value="${path.bin}/tester"/>
 
     <!-- shortcuts -->
-    <target name="cs" depends="phpcs-src"/>
+    <target name="cs" depends="setup-phpcs,phpcs-src"/>
     <target name="da" depends="dump-autoload"/>
 
     <target name="check" depends="check-php"/>
 
-    <target name="check-php" depends="phplint,phpstan,phpcs-src,spell-check"/>
+    <target name="check-php" depends="phplint,phpstan,setup-phpcs,phpcs-src,spell-check"/>
 
     <target name="composer">
         <exec executable="${path.composer.executable}" logoutput="true" passthru="true" checkreturn="true">
@@ -36,6 +37,11 @@
         <exec executable="${path.composer.executable}" logoutput="true" passthru="true" checkreturn="true">
             <arg value="dump-autoload"/>
         </exec>
+    </target>
+
+    <target name="setup-phpcs">
+        <copy file="${path.src}/CodeSniffer/ruleset.xml" todir="${path.vendor}/dogma/dogma-dev/src/CodeSniffer/"/>
+        <copy file="${path.src}/CodeSniffer/ruleset-tests.xml" todir="${path.vendor}/dogma/dogma-dev/src/CodeSniffer/"/>
     </target>
 
     <target name="phpcs-src">
