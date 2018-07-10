@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="Dogma" default="check-php">
+
+    <property name="file.mode.writable" value="0775"/>
+    <property name="path.bin" value="${path.root}/bin"/>
+    <property name="path.build" value="${path.root}/build"/>
+    <property name="path.composer.executable" value="composer"/>
+    <property name="path.php.executable" value="php"/>
+    <property name="path.phpcs.executable" value="${path.bin}/phpcs"/>
+    <property name="path.phpcs.ruleset" value="${path.src}/CodeSniffer/ruleset.xml"/>
+    <property name="path.phpcs.ruleset-tests" value="${path.src}/CodeSniffer/ruleset-tests.xml"/>
+    <property name="path.phplint.executable" value="${path.bin}/parallel-lint"/>
+    <property name="path.phpstan.executable" value="${path.bin}/phpstan"/>
+    <property name="path.phpstan.config" value="${path.build}/phpstan.neon"/>
+    <property name="path.root" value="${project.basedir}"/>
+    <property name="path.spell-checker.executable" value="${path.bin}/spell-checker"/>
+    <property name="path.spell-checker.config" value="${path.build}/spell-checker.neon"/>
+    <property name="path.src" value="${path.root}/src"/>
+    <property name="path.tester.executable" value="${path.bin}/tester"/>
+
+    <!-- shortcuts -->
+    <target name="cs" depends="phpcs-src"/>
+    <target name="da" depends="dump-autoload"/>
+
+    <target name="check" depends="check-php"/>
+
+    <target name="check-php" depends="phplint,phpstan,phpcs-src,spell-check"/>
+
+    <target name="composer">
+        <exec executable="${path.composer.executable}" logoutput="true" passthru="true" checkreturn="true">
+            <arg value="install"/>
+        </exec>
+    </target>
+
+    <target name="dump-autoload">
+        <exec executable="${path.composer.executable}" logoutput="true" passthru="true" checkreturn="true">
+            <arg value="dump-autoload"/>
+        </exec>
+    </target>
+
+    <target name="phpcs-src">
+        <exec executable="${path.phpcs.executable}" logoutput="true" passthru="true" checkreturn="true">
+            <arg value="--standard=${path.phpcs.ruleset-tests}"/>
+            <arg value="--extensions=php"/>
+            <arg value="--encoding=utf-8"/>
+            <arg value="--tab-width=4"/>
+            <arg value="-sp"/>
+            <arg path="${path.src}"/>
+        </exec>
+    </target>
+
+    <target name="phplint">
+        <exec executable="${path.phplint.executable}" logoutput="true" passthru="true" checkreturn="true">
+            <arg path="${path.src}"/>
+        </exec>
+    </target>
+
+    <target name="phpstan">
+        <exec executable="${path.phpstan.executable}" logoutput="true" passthru="true" checkreturn="true">
+            <arg line="analyse"/>
+            <arg line="-c ${path.phpstan.config}"/>
+            <arg line="-l 5"/>
+            <arg path="${path.src}"/>
+        </exec>
+    </target>
+
+    <target name="spell-check">
+        <exec executable="${path.spell-checker.executable}" logoutput="true" passthru="true" checkreturn="true">
+            <arg line="--config ${path.spell-checker.config}"/>
+            <arg line="--checkDictionaryFiles"/>
+            <arg line="--memoryLimit 1024M"/>
+            <arg line="--noLogo"/>
+        </exec>
+    </target>
+
+</project>

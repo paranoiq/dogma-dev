@@ -1,0 +1,33 @@
+{
+    "name": "dogma/dogma-dev",
+    "type": "library",
+    "description": "Development tools and dependencies for Dogma and other projects.",
+    "homepage": "http://github.com/paranoiq/dogma-dev",
+    "license": ["BSD-3-Clause"],
+    "authors": [
+        {
+            "name": "Vlasta Neubauer",
+            "homepage": "http://www.paranoiq.cz"
+        }
+    ],
+    "require": {
+        "php-64bit": "^7.1.0",
+        "consistence/coding-standard": "2.4.0",
+        "jakub-onderka/php-console-highlighter": "~0.3",
+        "jakub-onderka/php-parallel-lint": "~0.8",
+        "nette/tester": "~1.7",
+        "phing/phing": "~2.16",
+        "phpstan/phpstan": "0.9.2",
+        "slevomat/coding-standard": "4.6.0",
+        "squizlabs/php_codesniffer": "~3.2",
+        "spell-checker/spell-checker": "~0.3",
+        "spell-checker/dictionary-en": "~0.1",
+        "tracy/tracy": "~2.4"
+    },
+    "autoload": {
+        "classmap": ["src"]
+    },
+    "config": {
+        "bin-dir": "bin"
+    }
+}

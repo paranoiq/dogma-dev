@@ -1,0 +1,9 @@
+
+parameters:
+    ignoreErrors:
+        - '~^Class Dogma\\Equalable not found~'
+        - '~^Class Dogma\\Math\\Interval\\Interval not found~'
+        - '~^Class Dogma\\Time\\DateOrTime not found~'
+        - '~^Call to method equals\(\) on an unknown class Dogma~'
+        - '~^Call to method format\(\) on an unknown class Dogma~'
+        - '~^Function remoteDebugWrite not found~'
