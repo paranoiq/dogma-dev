@@ -11,7 +11,7 @@
  * Configure this file as auto-prepended to use shortcuts in any project.
  */
 
-require_once __DIR__ . '/../vendor/tracy/tracy/src/tracy.php';
+require_once __DIR__ . '/../../../tracy/tracy/src/tracy.php';
 
 use Tracy\Debugger;
 use Tracy\Dumper;
