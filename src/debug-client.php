@@ -11,6 +11,7 @@
  * Configure this file as auto-prepended to use shortcuts in any project.
  */
 
+use Dogma\Pokeable;
 use Tracy\Debugger;
 use Tracy\Dumper;
 
@@ -20,6 +21,14 @@ if (!class_exists(Debugger::class)) {
     } else {
         require_once __DIR__ . '/../vendor/tracy/tracy/src/tracy.php';
     }
+}
+
+if (!isset(Dumper::$objectExporters[Pokeable::class])) {
+    Dumper::$objectExporters[Pokeable::class] = function ($value) {
+        $value->poke();
+
+        return (array)$value;
+    };
 }
 
 if (!function_exists('d')) {
@@ -64,11 +73,6 @@ if (!function_exists('rd')) {
             $n = 0;
         }
 
-        if ($value instanceof \Dogma\Time\DateOrTime || $value instanceof \Dogma\Math\Interval\Interval) {
-            // fill internal cache
-            $value->format();
-        }
-
         $options = [
             Dumper::DEPTH => $depth,
             Dumper::TRUNCATE => 1000,
@@ -86,7 +90,7 @@ if (!function_exists('rd')) {
     }
 }
 
-if (!function_exists('debugWrite')) {
+if (!function_exists('remoteDebugWrite')) {
     function remoteDebugWrite(string $message): void
     {
         static $socket;
