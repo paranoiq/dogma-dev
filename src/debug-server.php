@@ -35,6 +35,9 @@ while (true) {
     foreach ($connections as $i => $connection) {
         $message = socket_read($connection, 1000000);
         if ($message === false) {
+            if (socket_last_error() === 10035) {
+                continue;
+            }
             socket_close($connection);
             unset($connections[$i]);
         } elseif ($message) {
