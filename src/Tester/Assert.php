@@ -10,6 +10,7 @@
 namespace Dogma\Tester;
 
 use Dogma\Equalable;
+use Tester\Assert as NetteAssert;
 use const SORT_STRING;
 use function abs;
 use function array_keys;
@@ -27,17 +28,19 @@ use function next;
  * Tester\Assert with fixed order of parameters
  * Added support for comparing object with Equalable interface
  */
-class Assert extends \Tester\Assert
+class Assert
 {
+
+    private const EPSILON = 1e-10;
 
     /**
      * @param mixed $actual
      * @param mixed $expected
      * @param string|mixed|null $description
      */
-    public static function same($actual, $expected, $description = null): void
+    public static function same($actual, $expected, ?string $description = null): void
     {
-        parent::same($expected, $actual, $description);
+        NetteAssert::same($expected, $actual, $description);
     }
 
     /**
@@ -45,9 +48,9 @@ class Assert extends \Tester\Assert
      * @param mixed $expected
      * @param string|mixed|null $description
      */
-    public static function notSame($actual, $expected, $description = null): void
+    public static function notSame($actual, $expected, ?string $description = null): void
     {
-        parent::notSame($expected, $actual, $description);
+        NetteAssert::notSame($expected, $actual, $description);
     }
 
     /**
@@ -56,15 +59,15 @@ class Assert extends \Tester\Assert
      * @param mixed $expected
      * @param string|mixed|null $description
      */
-    public static function equal($actual, $expected, $description = null): void
+    public static function equal($actual, $expected, ?string $description = null): void
     {
         if ($actual instanceof Equalable && $expected instanceof Equalable && get_class($actual) === get_class($expected)) {
-            self::$counter++;
+            NetteAssert::$counter++;
             if (!$actual->equals($expected)) {
                 self::fail(self::describe('%1 should be equal to %2', $description), $expected, $actual);
             }
         } else {
-            self::$counter++;
+            NetteAssert::$counter++;
             if (!self::isEqual($expected, $actual)) {
                 self::fail(self::describe('%1 should be equal to %2', $description), $expected, $actual);
             }
@@ -77,15 +80,15 @@ class Assert extends \Tester\Assert
      * @param mixed $expected
      * @param string|mixed|null $description
      */
-    public static function notEqual($actual, $expected, $description = null): void
+    public static function notEqual($actual, $expected, ?string $description = null): void
     {
         if ($actual instanceof Equalable && $expected instanceof Equalable && get_class($actual) === get_class($expected)) {
-            self::$counter++;
+            NetteAssert::$counter++;
             if ($actual->equals($expected)) {
                 self::fail(self::describe('%1 should not be equal to %2', $description), $expected, $actual);
             }
         } else {
-            self::$counter++;
+            NetteAssert::$counter++;
             if (self::isEqual($expected, $actual)) {
                 self::fail(self::describe('%1 should not be equal to %2', $description), $expected, $actual);
             }
@@ -97,9 +100,9 @@ class Assert extends \Tester\Assert
      * @param mixed $needle
      * @param string|mixed|null $description
      */
-    public static function contains($haystack, $needle, $description = null): void
+    public static function contains($haystack, $needle, ?string $description = null): void
     {
-        parent::contains($needle, $haystack, $description);
+        NetteAssert::contains($needle, $haystack, $description);
     }
 
     /**
@@ -107,9 +110,57 @@ class Assert extends \Tester\Assert
      * @param mixed $needle
      * @param string|mixed|null $description
      */
-    public static function notContains($haystack, $needle, $description = null): void
+    public static function notContains($haystack, $needle, ?string $description = null): void
     {
-        parent::notContains($needle, $haystack, $description);
+        NetteAssert::notContains($needle, $haystack, $description);
+    }
+
+    /**
+     * @param mixed $actual
+     */
+    public static function true($actual, string $description = null): void
+    {
+        NetteAssert::true($actual, $description);
+    }
+
+    /**
+     * @param mixed $actual
+     */
+    public static function false($actual, string $description = null): void
+    {
+        NetteAssert::false($actual, $description);
+    }
+
+    /**
+     * @param mixed $actual
+     */
+    public static function null($actual, string $description = null): void
+    {
+        NetteAssert::null($actual, $description);
+    }
+
+    /**
+     * @param mixed $actual
+     */
+    public static function nan($actual, string $description = null): void
+    {
+        NetteAssert::nan($actual, $description);
+    }
+
+    /**
+     * @param mixed $actual
+     */
+    public static function truthy($actual, string $description = null): void
+    {
+        NetteAssert::truthy($actual, $description);
+    }
+
+    /**
+     * @param mixed $actual
+     */
+    public static function falsey($actual, string $description = null): void
+    {
+        NetteAssert::falsey($actual, $description);
     }
 
     /**
@@ -117,9 +168,9 @@ class Assert extends \Tester\Assert
      * @param int|mixed $expectedCount
      * @param string|mixed|null $description
      */
-    public static function count($actualValue, $expectedCount, $description = null): void
+    public static function count($actualValue, int $expectedCount, ?string $description = null): void
     {
-        parent::count($expectedCount, $actualValue, $description);
+        NetteAssert::count($expectedCount, $actualValue, $description);
     }
 
     /**
@@ -127,9 +178,35 @@ class Assert extends \Tester\Assert
      * @param string|mixed $expectedType
      * @param string|mixed|null $description
      */
-    public static function type($actualValue, $expectedType, $description = null): void
+    public static function type($actualValue, $expectedType, ?string $description = null): void
     {
-        parent::type($expectedType, $actualValue, $description);
+        NetteAssert::type($expectedType, $actualValue, $description);
+    }
+
+    public static function exception(callable $function, string $class, string $message = null, $code = null): ?\Throwable
+    {
+        return NetteAssert::exception($function, $class, $message, $code);
+    }
+
+    public static function throws(callable $function, string $class, string $message = null, $code = null): ?\Throwable
+    {
+        return NetteAssert::exception($function, $class, $message, $code);
+    }
+
+    /**
+     * @param callable $function
+     * @param int|string|array $expectedType
+     * @param string $expectedMessage message
+     * @return \Throwable|null
+     */
+    public static function error(callable $function, $expectedType, string $expectedMessage = null): ?\Throwable
+    {
+        return NetteAssert::error($function, $expectedType, $expectedMessage);
+    }
+
+    public static function noError(callable $function): void
+    {
+        NetteAssert::error($function, []);
     }
 
     /**
@@ -137,9 +214,9 @@ class Assert extends \Tester\Assert
      * @param string|mixed $mask
      * @param string|mixed|null $description
      */
-    public static function match($actualValue, $mask, $description = null): void
+    public static function match($actualValue, $mask, ?string $description = null): void
     {
-        parent::match($mask, $actualValue, $description);
+        NetteAssert::match($mask, $actualValue, $description);
     }
 
     /**
@@ -147,9 +224,9 @@ class Assert extends \Tester\Assert
      * @param mixed $file
      * @param string|mixed|null $description
      */
-    public static function matchFile($actualValue, $file, $description = null): void
+    public static function matchFile($actualValue, $file, ?string $description = null): void
     {
-        parent::matchFile($file, $actualValue, $description);
+        NetteAssert::matchFile($file, $actualValue, $description);
     }
 
     /**
@@ -159,7 +236,7 @@ class Assert extends \Tester\Assert
      */
     public static function fail($message, $actual = null, $expected = null): void
     {
-        parent::fail($message, $expected, $actual);
+        NetteAssert::fail($message, $expected, $actual);
     }
 
     /**
@@ -228,6 +305,15 @@ class Assert extends \Tester\Assert
     private static function describe($reason, $description): string
     {
         return ($description ? $description . ': ' : '') . $reason;
+    }
+
+    /**
+     * @param mixed $obj
+     * @param \Closure $closure
+     */
+    public static function with($obj, \Closure $closure)
+    {
+        NetteAssert::with($obj, $closure);
     }
 
 }
