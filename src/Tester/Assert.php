@@ -10,6 +10,7 @@
 namespace Dogma\Tester;
 
 use Dogma\Equalable;
+use Dogma\Pokeable;
 use Tester\Assert as NetteAssert;
 use const SORT_STRING;
 use function abs;
@@ -236,6 +237,12 @@ class Assert
      */
     public static function fail($message, $actual = null, $expected = null): void
     {
+        if ($expected instanceof Pokeable) {
+            $expected->poke();
+        }
+        if ($actual instanceof Pokeable) {
+            $actual->poke();
+        }
         NetteAssert::fail($message, $expected, $actual);
     }
 
