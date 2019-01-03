@@ -47,9 +47,6 @@
         <!-- seems to be failing even with the exception for foreach -->
         <exclude name="SlevomatCodingStandard.Variables.UnusedVariable"/>
 
-        <!-- bug in handling traits -->
-        <exclude name="SlevomatCodingStandard.Classes.ModernClassNameReference.ClassNameReferencedViaFunctionCall"/>
-
         <exclude-pattern>testClass</exclude-pattern>
         <exclude-pattern>TestClass</exclude-pattern>
     </rule>
