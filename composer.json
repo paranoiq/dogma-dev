@@ -15,6 +15,7 @@
         "consistence/coding-standard": "3.5.0",
         "jakub-onderka/php-console-highlighter": "~0.3",
         "jakub-onderka/php-parallel-lint": "~0.9|~1.0",
+        "maglnet/composer-require-checker": "~1.1",
         "nette/tester": "~2.1",
         "phing/phing": "~2.16",
         "phpstan/phpstan": "0.10.5",
