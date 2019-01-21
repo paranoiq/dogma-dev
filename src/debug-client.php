@@ -82,7 +82,7 @@ if (!function_exists('rd')) {
         $message = ($name ? $name . ': ' : '') . trim($dump) . "\n";
         if ($showTrace) {
             $trace = debug_backtrace();
-            $message .= 'in ' . ($trace[0]['file'] ?? '?') . ':' . ($trace[0]['line'] ?? '?') . " ($n)\n";
+            $message .= "\x1B[1;30min " . ($trace[0]['file'] ?? '?') . ':' . ($trace[0]['line'] ?? '?') . " ($n)\x1B[0m\n";
         }
 
         remoteDebugWrite($message);
