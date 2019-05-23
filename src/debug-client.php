@@ -18,8 +18,10 @@ use Tracy\Dumper;
 if (!class_exists(Debugger::class)) {
     if (file_exists(__DIR__ . '/../../../tracy/tracy/src/tracy.php')) {
         require_once __DIR__ . '/../../../tracy/tracy/src/tracy.php';
-    } else {
+    } elseif (file_exists(__DIR__ . '/../vendor/tracy/tracy/src/tracy.php')) {
         require_once __DIR__ . '/../vendor/tracy/tracy/src/tracy.php';
+    } else {
+        return;
     }
 }
 
