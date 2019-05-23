@@ -29,27 +29,33 @@ if (!isset(Dumper::$objectExporters[Pokeable::class])) {
     Dumper::$objectExporters[Pokeable::class] = function ($value) {
         $value->poke();
 
-        return (array)$value;
+        return (array) $value;
     };
 }
 
 if (!function_exists('d')) {
     /**
      * @param mixed ...$params
+     * @returm mixed
      */
-    function d(...$params): void
+    function d(...$params)
     {
         Debugger::dump(...$params);
+
+        return $params[0];
     }
 }
 
 if (!function_exists('bd')) {
     /**
      * @param mixed ...$params
+     * @return mixed
      */
-    function bd(...$params): void
+    function bd(...$params)
     {
         Debugger::barDump(...$params);
+
+        return $params[0];
     }
 }
 
@@ -59,8 +65,9 @@ if (!function_exists('rd')) {
      * @param mixed|null $name
      * @param int|bool $depth
      * @param bool $showTrace
+     * @return mixed
      */
-    function rd($value, $name = null, $depth = 5, $showTrace = true): void
+    function rd($value, $name = null, $depth = 5, $showTrace = true)
     {
         static $n;
 
@@ -77,7 +84,7 @@ if (!function_exists('rd')) {
 
         $options = [
             Dumper::DEPTH => $depth,
-            Dumper::TRUNCATE => 1000,
+            Dumper::TRUNCATE => 5000,
             Dumper::LOCATION => false,
         ];
         $dump = Dumper::toTerminal($value, $options);
@@ -89,6 +96,8 @@ if (!function_exists('rd')) {
 
         remoteDebugWrite($message);
         $n++;
+
+        return $value;
     }
 }
 
