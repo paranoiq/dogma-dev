@@ -64,16 +64,16 @@ if (!function_exists('rd')) {
      * @param mixed $value
      * @param mixed|null $name
      * @param int|bool $depth
-     * @param bool $showTrace
+     * @param int $showTraceLines
      * @return mixed
      */
-    function rd($value, $name = null, $depth = 5, $showTrace = true)
+    function rd($value, $name = null, $depth = 5, $showTraceLines = 1)
     {
         static $n;
 
         if ($depth === false) {
             $depth = 5;
-            $showTrace = false;
+            $showTraceLines = 0;
         }
 
         if ($n === null) {
@@ -89,9 +89,14 @@ if (!function_exists('rd')) {
         ];
         $dump = Dumper::toTerminal($value, $options);
         $message = ($name ? $name . ': ' : '') . trim($dump) . "\n";
-        if ($showTrace) {
-            $trace = debug_backtrace();
-            $message .= "\x1B[1;30min " . ($trace[0]['file'] ?? '?') . ':' . ($trace[0]['line'] ?? '?') . " ($n)\x1B[0m\n";
+        if ($showTraceLines > 0) {
+            $traces = debug_backtrace();
+            foreach ($traces as $i => $trace) {
+                $message .= "\x1B[1;30min " . ($trace['file'] ?? '?') . ':' . ($trace['line'] ?? '?') . " ($n)\x1B[0m\n";
+                if ($i + 1 >= $showTraceLines) {
+                    break;
+                }
+            }
         }
 
         remoteDebugWrite($message);
