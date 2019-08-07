@@ -8,7 +8,7 @@
  */
 
 /**
- * Remote dump server. Receives dumps from debug.php
+ * Remote dump server. Receives dumps from debug-client.php
  */
 
 ini_set('display_errors', '1');
