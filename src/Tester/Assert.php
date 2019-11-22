@@ -7,6 +7,8 @@
  * For the full copyright and license information read the file 'license.md', distributed with this source code
  */
 
+// spell-check-ignore: nan truthy falsey Pokeable
+
 namespace Dogma\Tester;
 
 use Dogma\Equalable;
@@ -37,7 +39,7 @@ class Assert
     /**
      * @param mixed $actual
      * @param mixed $expected
-     * @param string|mixed|null $description
+     * @param string|null $description
      */
     public static function same($actual, $expected, ?string $description = null): void
     {
@@ -47,7 +49,7 @@ class Assert
     /**
      * @param mixed $actual
      * @param mixed $expected
-     * @param string|mixed|null $description
+     * @param string|null $description
      */
     public static function notSame($actual, $expected, ?string $description = null): void
     {
@@ -58,7 +60,7 @@ class Assert
      * Added support for comparing object with Equalable interface
      * @param mixed $actual
      * @param mixed $expected
-     * @param string|mixed|null $description
+     * @param string|null $description
      */
     public static function equal($actual, $expected, ?string $description = null): void
     {
@@ -79,7 +81,7 @@ class Assert
      * Added support for comparing object with Equalable interface
      * @param mixed $actual
      * @param mixed $expected
-     * @param string|mixed|null $description
+     * @param string|null $description
      */
     public static function notEqual($actual, $expected, ?string $description = null): void
     {
@@ -99,7 +101,7 @@ class Assert
     /**
      * @param mixed $haystack
      * @param mixed $needle
-     * @param string|mixed|null $description
+     * @param string|null $description
      */
     public static function contains($haystack, $needle, ?string $description = null): void
     {
@@ -109,7 +111,7 @@ class Assert
     /**
      * @param mixed $haystack
      * @param mixed $needle
-     * @param string|mixed|null $description
+     * @param string|null $description
      */
     public static function notContains($haystack, $needle, ?string $description = null): void
     {
@@ -118,56 +120,62 @@ class Assert
 
     /**
      * @param mixed $actual
+     * @param string|null $description
      */
-    public static function true($actual, string $description = null): void
+    public static function true($actual, ?string $description = null): void
     {
         NetteAssert::true($actual, $description);
     }
 
     /**
      * @param mixed $actual
+     * @param string|null $description
      */
-    public static function false($actual, string $description = null): void
+    public static function false($actual, ?string $description = null): void
     {
         NetteAssert::false($actual, $description);
     }
 
     /**
      * @param mixed $actual
+     * @param string|null $description
      */
-    public static function null($actual, string $description = null): void
+    public static function null($actual, ?string $description = null): void
     {
         NetteAssert::null($actual, $description);
     }
 
     /**
      * @param mixed $actual
+     * @param string|null $description
      */
-    public static function nan($actual, string $description = null): void
+    public static function nan($actual, ?string $description = null): void
     {
         NetteAssert::nan($actual, $description);
     }
 
     /**
      * @param mixed $actual
+     * @param string|null $description
      */
-    public static function truthy($actual, string $description = null): void
+    public static function truthy($actual, ?string $description = null): void
     {
         NetteAssert::truthy($actual, $description);
     }
 
     /**
      * @param mixed $actual
+     * @param string|null $description
      */
-    public static function falsey($actual, string $description = null): void
+    public static function falsey($actual, ?string $description = null): void
     {
         NetteAssert::falsey($actual, $description);
     }
 
     /**
      * @param mixed $actualValue
-     * @param int|mixed $expectedCount
-     * @param string|mixed|null $description
+     * @param int $expectedCount
+     * @param string|null $description
      */
     public static function count($actualValue, int $expectedCount, ?string $description = null): void
     {
@@ -177,30 +185,44 @@ class Assert
     /**
      * @param mixed $actualValue
      * @param string|mixed $expectedType
-     * @param string|mixed|null $description
+     * @param string|null $description
      */
     public static function type($actualValue, $expectedType, ?string $description = null): void
     {
         NetteAssert::type($expectedType, $actualValue, $description);
     }
 
-    public static function exception(callable $function, string $class, string $message = null, $code = null): ?\Throwable
-    {
-        return NetteAssert::exception($function, $class, $message, $code);
-    }
-
-    public static function throws(callable $function, string $class, string $message = null, $code = null): ?\Throwable
+    /**
+     * @param callable $function
+     * @param string $class
+     * @param string|null $message
+     * @param mixed|int|null $code
+     * @return \Throwable|null
+     */
+    public static function exception(callable $function, string $class, ?string $message = null, $code = null): ?\Throwable
     {
         return NetteAssert::exception($function, $class, $message, $code);
     }
 
     /**
      * @param callable $function
-     * @param int|string|array $expectedType
+     * @param string $class
+     * @param string|null $message
+     * @param mixed|int|null $code
+     * @return \Throwable|null
+     */
+    public static function throws(callable $function, string $class, ?string $message = null, $code = null): ?\Throwable
+    {
+        return NetteAssert::exception($function, $class, $message, $code);
+    }
+
+    /**
+     * @param callable $function
+     * @param int|string|mixed[] $expectedType
      * @param string $expectedMessage message
      * @return \Throwable|null
      */
-    public static function error(callable $function, $expectedType, string $expectedMessage = null): ?\Throwable
+    public static function error(callable $function, $expectedType, ?string $expectedMessage = null): ?\Throwable
     {
         return NetteAssert::error($function, $expectedType, $expectedMessage);
     }
@@ -213,7 +235,7 @@ class Assert
     /**
      * @param mixed $actualValue
      * @param string|mixed $mask
-     * @param string|mixed|null $description
+     * @param string|null $description
      */
     public static function match($actualValue, $mask, ?string $description = null): void
     {
@@ -223,7 +245,7 @@ class Assert
     /**
      * @param mixed $actualValue
      * @param mixed $file
-     * @param string|mixed|null $description
+     * @param string|null $description
      */
     public static function matchFile($actualValue, $file, ?string $description = null): void
     {
@@ -318,7 +340,7 @@ class Assert
      * @param mixed $obj
      * @param \Closure $closure
      */
-    public static function with($obj, \Closure $closure)
+    public static function with($obj, \Closure $closure): void
     {
         NetteAssert::with($obj, $closure);
     }

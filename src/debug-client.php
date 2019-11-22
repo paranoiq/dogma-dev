@@ -7,6 +7,8 @@
  * For the full copyright and license information read the file 'license.md', distributed with this source code
  */
 
+// spell-check-ignore: dt rl pid Pokeable
+
 /**
  * Configure this file as auto-prepended to use shortcuts in any project.
  */
@@ -43,6 +45,10 @@ if (!class_exists('DogmaDebugTools')) {
         /** @var int */
         private static $n;
 
+        /**
+         * @param mixed[] $traces
+         * @return string|null
+         */
         public static function extractName(array $traces): ?string
         {
             $sourceTrace = $traces[0];
@@ -72,6 +78,10 @@ if (!class_exists('DogmaDebugTools')) {
             return $expression;
         }
 
+        /**
+         * @param mixed[] $trace
+         * @return string|null
+         */
         public static function formatTraceLine(array $trace): ?string
         {
             $filePath = $trace['file'] ?? null;
@@ -82,7 +92,7 @@ if (!class_exists('DogmaDebugTools')) {
             $fileName = basename($filePath);
 
             $line = $trace['line'] ?? '?';
-            $order = DogmaDebugTools::$n + 1;
+            $order = self::$n + 1;
 
             return "\x1B[1;30min $dirName/\x1B[0;37m$fileName\x1B[1;30m:\e[0;37m$line\e[1;30m ($order)\x1B[0m\n";
         }
@@ -121,13 +131,15 @@ if (!class_exists('DogmaDebugTools')) {
                 die("Could not connect to debug server.\n");
             }
         }
+
     }
 }
 
 if (!function_exists('d')) {
+
     /**
      * @param mixed ...$params
-     * @returm mixed
+     * @return mixed
      */
     function d(...$params)
     {
@@ -138,6 +150,7 @@ if (!function_exists('d')) {
 }
 
 if (!function_exists('bd')) {
+
     /**
      * @param mixed ...$params
      * @return mixed
@@ -151,6 +164,7 @@ if (!function_exists('bd')) {
 }
 
 if (!function_exists('rd')) {
+
     /**
      * @param mixed $value
      * @param int|bool $depth
@@ -191,6 +205,10 @@ if (!function_exists('rd')) {
 }
 
 if (!function_exists('rl')) {
+
+    /**
+     * @param mixed $label
+     */
     function rl($label): void
     {
         $message = "\x1B[1;37m\x1B[41m $label \x1B[0m\n";

@@ -19,7 +19,9 @@ $address = '127.0.0.1';
 $port = 6666;
 
 $sock = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-socket_bind($sock, $address, $port) || die('Could not bind to address.');
+if (!socket_bind($sock, $address, $port)) {
+    die('Could not bind to address.');
+}
 socket_listen($sock, 20);
 socket_set_nonblock($sock);
 
