@@ -5,6 +5,7 @@
     </rule>
 
     <rule ref="../../../../slevomat/coding-standard/SlevomatCodingStandard/ruleset.xml">
+        <exclude name="SlevomatCodingStandard.Classes.EmptyLinesAroundClassBraces.NoEmptyLineAfterOpeningBrace"/>
         <exclude name="SlevomatCodingStandard.Classes.SuperfluousExceptionNaming.SuperfluousSuffix"/>
         <exclude name="SlevomatCodingStandard.Classes.TraitUseSpacing.IncorrectLinesCountBeforeFirstUse"/>
         <exclude name="SlevomatCodingStandard.Commenting.DisallowOneLinePropertyDocComment.OneLinePropertyComment"/>
@@ -42,6 +43,8 @@
         <exclude name="SlevomatCodingStandard.PHP.UselessParentheses.UselessParentheses"/>
         <exclude name="SlevomatCodingStandard.TypeHints.DeclareStrictTypes.IncorrectWhitespaceAfterDeclare"/>
         <exclude name="SlevomatCodingStandard.TypeHints.DeclareStrictTypes.IncorrectWhitespaceBetweenOpenTagAndDeclare"/>
+        <exclude name="SlevomatCodingStandard.TypeHints.DisallowArrayTypeHintSyntax.DisallowedArrayTypeHintSyntax"/>
+        <exclude name="SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint"/>
         <exclude name="SlevomatCodingStandard.Types.EmptyLinesAroundTypeBraces.NoEmptyLineAfterOpeningBrace"/>
 
         <!-- not taking @throws into account -->
@@ -50,13 +53,33 @@
         <!-- seems to be failing even with the exception for foreach -->
         <exclude name="SlevomatCodingStandard.Variables.UnusedVariable"/>
 
+        <!-- seems to not detecting "Throwable", only "\Throwable" -->
+        <exclude name="Consistence.Exceptions.ExceptionDeclaration.NotChainable"/>
+
         <exclude-pattern>testClass</exclude-pattern>
         <exclude-pattern>TestClass</exclude-pattern>
     </rule>
 
-    <rule ref="SlevomatCodingStandard.Namespaces.UnusedUses">
+    <rule ref="Generic.Whitespace">
+        <exclude name="Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed"/><!-- i like spaces -->
+    </rule>
+
+    <rule ref="Generic.Functions.OpeningFunctionBraceBsdAllman">
+        <exclude name="Generic.Functions.OpeningFunctionBraceBsdAllman.BraceOnSameLine"/><!-- ) { on separate line -->
+    </rule>
+
+    <rule ref="Generic.Commenting.Todo.TaskFound">
+        <exclude name="Generic.Commenting.Todo.TaskFound"/>
+    </rule>
+
+    <rule ref="SlevomatCodingStandard.Files.TypeNameMatchesFileName">
+        <exclude-pattern>/exceptions/</exclude-pattern>
+        <exclude-pattern>/tests/</exclude-pattern>
+    </rule>
+
+    <rule ref="SlevomatCodingStandard.Namespaces.AlphabeticallySortedUses">
         <properties>
-            <property name="searchAnnotations" value="true" />
+            <property name="caseSensitive" value="false"/>
         </properties>
     </rule>
 
@@ -77,6 +100,12 @@
         </properties>
     </rule>
 
+    <rule ref="SlevomatCodingStandard.Namespaces.UnusedUses">
+        <properties>
+            <property name="searchAnnotations" value="true" />
+        </properties>
+    </rule>
+
     <rule ref="SlevomatCodingStandard.Typehints.TypeHintDeclaration">
         <properties>
             <property name="traversableTypeHints" type="array" value="Traversable"/>
@@ -84,31 +113,15 @@
         </properties>
     </rule>
 
-    <rule ref="Squiz.WhiteSpace.FunctionSpacing.After"/>
+    <rule ref="SlevomatCodingStandard.Variables.UnusedVariable">
+        <property name="ignoreUnusedValuesWhenOnlyKeysAreUsedInForeach" value="true"/>
+    </rule>
 
     <rule ref="Squiz.Commenting.FunctionComment">
         <exclude-pattern>tests/</exclude-pattern><!-- @dataProvider etc. annotations trigger comments check -->
         <exclude name="Squiz.Commenting.FunctionComment.WrongStyle"/><!-- bullshit -->
     </rule>
 
-    <rule ref="SlevomatCodingStandard.Files.TypeNameMatchesFileName">
-        <exclude-pattern>/exceptions/</exclude-pattern>
-        <exclude-pattern>/tests/</exclude-pattern>
-    </rule>
+    <rule ref="Squiz.WhiteSpace.FunctionSpacing.After"/>
 
-    <rule ref="SlevomatCodingStandard.Variables.UnusedVariable">
-        <property name="ignoreUnusedValuesWhenOnlyKeysAreUsedInForeach" value="true"/>
-    </rule>
-
-    <rule ref="Generic.Whitespace">
-        <exclude name="Generic.WhiteSpace.DisallowSpaceIndent.SpacesUsed"/><!-- i like spaces -->
-    </rule>
-
-    <rule ref="Generic.Functions.OpeningFunctionBraceBsdAllman">
-        <exclude name="Generic.Functions.OpeningFunctionBraceBsdAllman.BraceOnSameLine"/><!-- ) { on separate line -->
-    </rule>
-
-    <rule ref="Generic.Commenting.Todo.TaskFound">
-        <exclude name="Generic.Commenting.Todo.TaskFound"/>
-    </rule>
 </ruleset>
