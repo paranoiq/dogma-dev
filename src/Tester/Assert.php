@@ -11,9 +11,13 @@
 
 namespace Dogma\Tester;
 
+use Closure;
 use Dogma\Equalable;
 use Dogma\Pokeable;
+use Exception;
+use SplObjectStorage;
 use Tester\Assert as NetteAssert;
+use Throwable;
 use const SORT_STRING;
 use function abs;
 use function array_keys;
@@ -197,9 +201,9 @@ class Assert
      * @param string $class
      * @param string|null $message
      * @param mixed|int|null $code
-     * @return \Throwable|null
+     * @return Throwable|null
      */
-    public static function exception(callable $function, string $class, ?string $message = null, $code = null): ?\Throwable
+    public static function exception(callable $function, string $class, ?string $message = null, $code = null): ?Throwable
     {
         return NetteAssert::exception($function, $class, $message, $code);
     }
@@ -209,9 +213,9 @@ class Assert
      * @param string $class
      * @param string|null $message
      * @param mixed|int|null $code
-     * @return \Throwable|null
+     * @return Throwable|null
      */
-    public static function throws(callable $function, string $class, ?string $message = null, $code = null): ?\Throwable
+    public static function throws(callable $function, string $class, ?string $message = null, $code = null): ?Throwable
     {
         return NetteAssert::exception($function, $class, $message, $code);
     }
@@ -220,9 +224,9 @@ class Assert
      * @param callable $function
      * @param int|string|mixed[] $expectedType
      * @param string $expectedMessage message
-     * @return \Throwable|null
+     * @return Throwable|null
      */
-    public static function error(callable $function, $expectedType, ?string $expectedMessage = null): ?\Throwable
+    public static function error(callable $function, $expectedType, ?string $expectedMessage = null): ?Throwable
     {
         return NetteAssert::error($function, $expectedType, $expectedMessage);
     }
@@ -281,11 +285,12 @@ class Assert
     public static function isEqual($expected, $actual, $level = 0, $objects = null): bool
     {
         if ($level > 10) {
-            throw new \Exception('Nesting level too deep or recursive dependency.');
+            throw new Exception('Nesting level too deep or recursive dependency.');
         }
 
         if (is_float($expected) && is_float($actual) && is_finite($expected) && is_finite($actual)) {
             $diff = abs($expected - $actual);
+
             return ($diff < self::EPSILON) || ($diff / max(abs($expected), abs($actual)) < self::EPSILON);
         }
 
@@ -295,7 +300,7 @@ class Assert
                 return $expected->equals($actual);
             }
             /* end */
-            $objects = $objects ? clone $objects : new \SplObjectStorage();
+            $objects = $objects ? clone $objects : new SplObjectStorage();
             if (isset($objects[$expected])) {
                 return $objects[$expected] === $actual;
             } elseif ($expected === $actual) {
@@ -320,6 +325,7 @@ class Assert
                 }
                 next($actual);
             }
+
             return true;
         }
 
@@ -340,7 +346,7 @@ class Assert
      * @param mixed $obj
      * @param \Closure $closure
      */
-    public static function with($obj, \Closure $closure): void
+    public static function with($obj, Closure $closure): void
     {
         NetteAssert::with($obj, $closure);
     }

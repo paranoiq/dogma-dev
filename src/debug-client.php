@@ -28,7 +28,7 @@ if (!class_exists(Debugger::class)) {
 }
 
 if (!isset(Dumper::$objectExporters[Pokeable::class])) {
-    Dumper::$objectExporters[Pokeable::class] = function ($value) {
+    Dumper::$objectExporters[Pokeable::class] = static function ($value) {
         $value->poke();
 
         return (array) $value;
@@ -104,7 +104,7 @@ if (!class_exists('DogmaDebugTools')) {
             }
 
             if (self::$n === null) {
-                $dt = new \DateTime();
+                $dt = new DateTime();
                 $time = $dt->format('Y-m-d H:i:s');
                 $process = getmypid();
                 $header = "\n$time (pid: $process) ";
@@ -147,6 +147,7 @@ if (!function_exists('d')) {
 
         return $params[0];
     }
+
 }
 
 if (!function_exists('bd')) {
@@ -161,6 +162,7 @@ if (!function_exists('bd')) {
 
         return $params[0];
     }
+
 }
 
 if (!function_exists('rd')) {
@@ -171,7 +173,7 @@ if (!function_exists('rd')) {
      * @param int $showTraceLines
      * @return mixed
      */
-    function rd($value, $depth = 5, $showTraceLines = 1)
+    function rd($value, $depth = 5, int $showTraceLines = 1)
     {
         if ($depth === false) {
             $depth = 5;
@@ -202,6 +204,7 @@ if (!function_exists('rd')) {
 
         return $value;
     }
+
 }
 
 if (!function_exists('rl')) {
@@ -215,6 +218,7 @@ if (!function_exists('rl')) {
 
         DogmaDebugTools::remoteWrite($message);
     }
+
 }
 
 ?>

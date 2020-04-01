@@ -238,11 +238,16 @@
     <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace"/>
 
     <rule ref="../../../../slevomat/coding-standard/SlevomatCodingStandard/ruleset.xml">
+        <exclude name="SlevomatCodingStandard.Classes.ClassStructure.IncorrectGroupOrder"/>
         <exclude name="SlevomatCodingStandard.Classes.EmptyLinesAroundClassBraces.NoEmptyLineAfterOpeningBrace"/>
+        <exclude name="SlevomatCodingStandard.Classes.RequireMultiLineMethodSignature.RequiredMultiLineSignature"/>
         <exclude name="SlevomatCodingStandard.Classes.SuperfluousExceptionNaming.SuperfluousSuffix"/>
         <exclude name="SlevomatCodingStandard.Classes.TraitUseSpacing.IncorrectLinesCountBeforeFirstUse"/>
         <exclude name="SlevomatCodingStandard.Commenting.DisallowOneLinePropertyDocComment.OneLinePropertyComment"/>
         <exclude name="SlevomatCodingStandard.Commenting.DocCommentSpacing.IncorrectLinesCountBetweenDescriptionAndAnnotations"/>
+        <exclude name="SlevomatCodingStandard.Commenting.RequireOneLineDocComment.MultiLineDocComment"/>
+        <exclude name="SlevomatCodingStandard.ControlStructures.BlockControlStructureSpacing.IncorrectLinesCountAfterControlStructure"/>
+        <exclude name="SlevomatCodingStandard.ControlStructures.BlockControlStructureSpacing.IncorrectLinesCountBeforeControlStructure"/>
         <exclude name="SlevomatCodingStandard.ControlStructures.ControlStructureSpacing.IncorrectLinesCountAfterControlStructure"/>
         <exclude name="SlevomatCodingStandard.ControlStructures.ControlStructureSpacing.IncorrectLinesCountBeforeControlStructure"/>
         <exclude name="SlevomatCodingStandard.ControlStructures.ControlStructureSpacing.IncorrectLinesCountBeforeFirstControlStructure"/>
@@ -256,14 +261,17 @@
         <exclude name="SlevomatCodingStandard.ControlStructures.RequireMultiLineTernaryOperator.MultiLineTernaryOperatorNotUsed"/>
         <exclude name="SlevomatCodingStandard.ControlStructures.RequireTernaryOperator.TernaryOperatorNotUsed"/>
         <exclude name="SlevomatCodingStandard.ControlStructures.UselessConditionWithReturn.UselessIfCondition"/>
+        <exclude name="SlevomatCodingStandard.Files.LineLength.LineTooLong"/>
         <exclude name="SlevomatCodingStandard.Files.TypeNameMatchesFileName.NoMatchBetweenTypeNameAndFileName"/>
         <exclude name="SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter"/>
+        <exclude name="SlevomatCodingStandard.Namespaces.FullyQualifiedClassNameInAnnotation.NonFullyQualifiedClassName"/>
         <exclude name="SlevomatCodingStandard.Namespaces.FullyQualifiedClassNameAfterKeyword.NonFullyQualifiedExtends"/>
         <exclude name="SlevomatCodingStandard.Namespaces.FullyQualifiedClassNameAfterKeyword.NonFullyQualifiedImplements"/>
         <exclude name="SlevomatCodingStandard.Namespaces.FullyQualifiedExceptions.NonFullyQualifiedException"/>
         <exclude name="SlevomatCodingStandard.Namespaces.FullyQualifiedGlobalConstants.NonFullyQualified"/>
         <exclude name="SlevomatCodingStandard.Namespaces.FullyQualifiedGlobalFunctions.NonFullyQualified"/>
         <exclude name="SlevomatCodingStandard.Namespaces.UseOnlyWhitelistedNamespaces.NonFullyQualified"/>
+        <exclude name="SlevomatCodingStandard.Numbers.RequireNumericLiteralSeparator.RequiredNumericLiteralSeparator"/>
         <exclude name="SlevomatCodingStandard.Operators.DisallowIncrementAndDecrementOperators.DisallowedPostDecrementOperator"/>
         <exclude name="SlevomatCodingStandard.Operators.DisallowIncrementAndDecrementOperators.DisallowedPostIncrementOperator"/>
         <exclude name="SlevomatCodingStandard.Operators.DisallowIncrementAndDecrementOperators.DisallowedPreDecrementOperator"/>
@@ -280,11 +288,14 @@
         <!-- requires PHP 7.3 -->
         <exclude name="SlevomatCodingStandard.Functions.TrailingCommaInCall.MissingTrailingComma"/>
 
+        <!-- requires PHP 7.4 -->
+        <exclude name="SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint"/>
+
         <!-- not taking @throws into account -->
-        <exclude name="SlevomatCodingStandard.TypeHints.TypeHintDeclaration.UselessDocComment"/>
+        <!--exclude name="SlevomatCodingStandard.TypeHints.TypeHintDeclaration.UselessDocComment"/-->
 
         <!-- seems to be failing even with the exception for foreach -->
-        <exclude name="SlevomatCodingStandard.Variables.UnusedVariable"/>
+        <!--exclude name="SlevomatCodingStandard.Variables.UnusedVariable"/-->
 
         <!-- seems to not detecting "Throwable", only "\Throwable" -->
         <exclude name="Consistence.Exceptions.ExceptionDeclaration.NotChainable"/>
@@ -340,6 +351,7 @@
             <property name="traversableTypeHints" type="array">
                 <element value="Traversable"/>
             </property>
+            <property name="usefulAnnotations" type="array" value="@dataProvider,@deprecated,@internal,@see,@throws"/>
         </properties>
     </rule>
 
@@ -357,13 +369,6 @@
             <property name="traversableTypeHints" type="array">
                 <element value="Traversable"/>
             </property>
-        </properties>
-    </rule>
-
-    <rule ref="SlevomatCodingStandard.Typehints.TypeHintDeclaration">
-        <properties>
-            <property name="traversableTypeHints" type="array" value="Traversable"/>
-            <property name="usefulAnnotations" type="array" value="@dataProvider,@deprecated,@internal,@see,@throws"/>
         </properties>
     </rule>
 

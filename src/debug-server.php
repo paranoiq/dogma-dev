@@ -49,5 +49,3 @@ while (true) {
 
     usleep(20);
 }
-
-socket_close($sock);
