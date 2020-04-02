@@ -341,6 +341,7 @@
             <property name="allowFallbackGlobalConstants" value="false"/>
             <property name="allowFullyQualifiedExceptions" value="false"/>
             <property name="allowPartialUses" value="false"/>
+            <property name="searchAnnotations" value="true"/>
         </properties>
     </rule>
 
