@@ -283,7 +283,10 @@
         <exclude name="SlevomatCodingStandard.Operators.RequireCombinedAssignmentOperator.RequiredCombinedAssigmentOperator"/>
         <exclude name="SlevomatCodingStandard.Operators.RequireOnlyStandaloneIncrementAndDecrementOperators.PostIncrementOperatorNotUsedStandalone"/>
         <exclude name="SlevomatCodingStandard.Operators.RequireOnlyStandaloneIncrementAndDecrementOperators.PreIncrementOperatorNotUsedStandalone"/>
+        <exclude name="SlevomatCodingStandard.PHP.DisallowReference.DisallowedAssigningByReference"/>
+        <exclude name="SlevomatCodingStandard.PHP.DisallowReference.DisallowedInheritingVariableByReference"/>
         <exclude name="SlevomatCodingStandard.PHP.DisallowReference.DisallowedPassingByReference"/>
+        <exclude name="SlevomatCodingStandard.PHP.DisallowReference.DisallowedReturningReference"/>
         <exclude name="SlevomatCodingStandard.PHP.UselessParentheses.UselessParentheses"/>
         <exclude name="SlevomatCodingStandard.TypeHints.DeclareStrictTypes.IncorrectWhitespaceAfterDeclare"/>
         <exclude name="SlevomatCodingStandard.TypeHints.DisallowArrayTypeHintSyntax.DisallowedArrayTypeHintSyntax"/>
