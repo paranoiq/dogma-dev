@@ -45,6 +45,9 @@ if (!class_exists('DogmaDebugTools')) {
         /** @var int */
         private static $n;
 
+        /** @var float[] */
+        public static $timers = [];
+
         /**
          * @param mixed[] $traces
          * @return string|null
@@ -130,9 +133,24 @@ if (!class_exists('DogmaDebugTools')) {
             if (!$result) {
                 die("Could not connect to debug server.\n");
             }
+
+            register_shutdown_function(static function (): void {
+                static $done = false;
+                if (!$done) {
+                    $start = self::$timers['total'];
+                    $time = number_format((microtime(true) - $start) * 1000, 3, '.', ' ');
+                    $memory = number_format(memory_get_peak_usage(true) / 1000000, 3, '.', ' ');
+                    $message = "DONE: $time ms, $memory MB";
+                    self::remoteWrite("\x1B[1;37m\x1B[44m $message \x1B[0m\n");
+
+                    $done = true;
+                }
+            });
         }
 
     }
+
+    DogmaDebugTools::$timers['total'] = microtime(true);
 }
 
 if (!function_exists('d')) {
@@ -168,6 +186,8 @@ if (!function_exists('bd')) {
 if (!function_exists('rd')) {
 
     /**
+     * Remote dump
+     *
      * @param mixed $value
      * @param int|bool $depth
      * @param int $showTraceLines
@@ -210,11 +230,44 @@ if (!function_exists('rd')) {
 if (!function_exists('rl')) {
 
     /**
+     * Remote label
+     *
      * @param mixed $label
      */
     function rl($label): void
     {
         $message = "\x1B[1;37m\x1B[41m $label \x1B[0m\n";
+
+        DogmaDebugTools::remoteWrite($message);
+    }
+
+}
+
+if (!function_exists('t')) {
+
+    /**
+     * Timer
+     *
+     * @param string|int|null $label
+     */
+    function t($label = ''): void
+    {
+        $label = (string) $label;
+
+        if (isset(DogmaDebugTools::$timers[$label])) {
+            $start = DogmaDebugTools::$timers[$label];
+            DogmaDebugTools::$timers[$label] = microtime(true);
+        } elseif (isset(DogmaDebugTools::$timers[null])) {
+            $start = DogmaDebugTools::$timers[null];
+            DogmaDebugTools::$timers[null] = microtime(true);
+        } else {
+            DogmaDebugTools::$timers[null] = microtime(true);
+            return;
+        }
+
+        $time = number_format((microtime(true) - $start) * 1000, 3, '.', ' ');
+        $label = $label ? ucfirst($label) : 'Timer';
+        $message = "\x1B[1;37m\x1B[42m $label: $time ms \x1B[0m\n";
 
         DogmaDebugTools::remoteWrite($message);
     }
