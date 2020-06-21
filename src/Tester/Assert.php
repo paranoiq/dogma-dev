@@ -344,7 +344,7 @@ class Assert
 
     /**
      * @param mixed $obj
-     * @param \Closure $closure
+     * @param Closure $closure
      */
     public static function with($obj, Closure $closure): void
     {
