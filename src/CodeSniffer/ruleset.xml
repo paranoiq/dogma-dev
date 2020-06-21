@@ -197,6 +197,7 @@
 
     <rule ref="Squiz.Strings.DoubleQuoteUsage">
         <exclude name="Squiz.Strings.DoubleQuoteUsage.ContainsVar"/>
+        <exclude name="Squiz.Strings.DoubleQuoteUsage.NotRequired"/>
     </rule>
 
     <rule ref="Squiz.Strings.ConcatenationSpacing">
@@ -239,6 +240,7 @@
 
     <rule ref="../../../../slevomat/coding-standard/SlevomatCodingStandard/ruleset.xml">
         <exclude name="SlevomatCodingStandard.Classes.ClassStructure.IncorrectGroupOrder"/>
+        <exclude name="SlevomatCodingStandard.Classes.ConstantSpacing.IncorrectCountOfBlankLinesAfterConstant"/>
         <exclude name="SlevomatCodingStandard.Classes.EmptyLinesAroundClassBraces.NoEmptyLineAfterOpeningBrace"/>
         <exclude name="SlevomatCodingStandard.Classes.MethodSpacing.IncorrectLinesCountBetweenMethods"/><!-- ignores comments between methods -->
         <exclude name="SlevomatCodingStandard.Classes.RequireMultiLineMethodSignature.RequiredMultiLineSignature"/>
