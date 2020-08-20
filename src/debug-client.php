@@ -13,6 +13,10 @@
  * Configure this file as auto-prepended to use shortcuts in any project.
  */
 
+require_once __DIR__ . '/DogmaDebugColors.php';
+
+use Dogma\Dumpable;
+use DogmaDebugColors as C;
 use Dogma\Pokeable;
 use Tracy\Debugger;
 use Tracy\Dumper;
@@ -27,6 +31,12 @@ if (!class_exists(Debugger::class)) {
     }
 }
 
+if (!isset(Dumper::$objectExporters[Dumpable::class])) {
+    Dumper::$objectExporters[Dumpable::class] = static function ($value) {
+        return [$value->dump()];
+    };
+}
+
 if (!isset(Dumper::$objectExporters[Pokeable::class])) {
     Dumper::$objectExporters[Pokeable::class] = static function ($value) {
         $value->poke();
@@ -36,6 +46,7 @@ if (!isset(Dumper::$objectExporters[Pokeable::class])) {
 }
 
 if (!class_exists('DogmaDebugTools')) {
+
     class DogmaDebugTools
     {
 
@@ -43,7 +54,7 @@ if (!class_exists('DogmaDebugTools')) {
         private static $socket;
 
         /** @var int */
-        private static $n;
+        private static $counter;
 
         /** @var float[] */
         public static $timers = [];
@@ -95,9 +106,9 @@ if (!class_exists('DogmaDebugTools')) {
             $fileName = basename($filePath);
 
             $line = $trace['line'] ?? '?';
-            $order = self::$n + 1;
+            $order = self::$counter + 1;
 
-            return "\x1B[1;30min $dirName/\x1B[0;37m$fileName\x1B[1;30m:\e[0;37m$line\e[1;30m ($order)\x1B[0m\n";
+            return C::gray("in $dirName/") . C::white($fileName) . C::gray(":") . C::white($line) . C::gray(" ($order)") . "\n";
         }
 
         public static function remoteWrite(string $message): void
@@ -106,12 +117,9 @@ if (!class_exists('DogmaDebugTools')) {
                 self::remoteConnect();
             }
 
-            if (self::$n === null) {
-                $dt = new DateTime();
-                $time = $dt->format('Y-m-d H:i:s');
-                $process = getmypid();
-                $header = "\n$time (pid: $process) ";
-                $message = $header . str_repeat('-', 120 - strlen($header)) . "\n" . $message;
+            if (self::$counter === null) {
+                $header = self::requestHeader();
+                $message = $header . "\n" . $message;
             }
 
             $result = socket_write(self::$socket, $message, strlen($message));
@@ -119,7 +127,41 @@ if (!class_exists('DogmaDebugTools')) {
                 die("Could not send data to debug server.\n");
             }
 
-            self::$n++;
+            self::$counter++;
+        }
+
+        private static function requestHeader(): string
+        {
+            $dt = new DateTime();
+            $time = $dt->format('Y-m-d H:i:s');
+            $sapi = PHP_SAPI;
+            $header = "\n" . C::color(" $time $sapi ", C::WHITE, C::BLUE) . " ";
+
+            if ($sapi === 'cli') {
+                $process = getmypid();
+                $header .= "(pid: $process) ";
+            } else {
+                if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
+                    $header .= 'AJAX ';
+                }
+                if (isset($_SERVER['REQUEST_METHOD'])) {
+                    $header .= $_SERVER['REQUEST_METHOD'] . ' ';
+                }
+                if (!empty($_SERVER['REQUEST_URI'])) {
+                    $header .= self::highlightUrl($_SERVER['REQUEST_URI']) . ' ';
+                }
+            }
+
+            return C::padString($header, 120, '-');
+        }
+
+        private static function highlightUrl($url): string
+        {
+            $url = preg_replace('/([a-zA-Z0-9_-]+)=/', C::yellow('$1') . '=', $url);
+            $url = preg_replace('/=([a-zA-Z0-9_-]+)/', '=' . C::lcyan('$1'), $url);
+            $url = preg_replace('/[\\/?&=]/', C::gray('$0'), $url);
+
+            return $url;
         }
 
         private static function remoteConnect(): void
@@ -140,8 +182,8 @@ if (!class_exists('DogmaDebugTools')) {
                     $start = self::$timers['total'];
                     $time = number_format((microtime(true) - $start) * 1000, 3, '.', ' ');
                     $memory = number_format(memory_get_peak_usage(true) / 1000000, 3, '.', ' ');
-                    $message = "DONE: $time ms, $memory MB";
-                    self::remoteWrite("\x1B[1;37m\x1B[44m $message \x1B[0m\n");
+                    $message = "$time ms, $memory MB";
+                    self::remoteWrite(C::color(" $message ", C::WHITE, C::BLUE) . "\n");
 
                     $done = true;
                 }
@@ -165,7 +207,6 @@ if (!function_exists('d')) {
 
         return $params[0];
     }
-
 }
 
 if (!function_exists('bd')) {
@@ -180,7 +221,6 @@ if (!function_exists('bd')) {
 
         return $params[0];
     }
-
 }
 
 if (!function_exists('rd')) {
@@ -224,29 +264,104 @@ if (!function_exists('rd')) {
 
         return $value;
     }
+}
 
+if (!function_exists('rdm')) {
+
+    /**
+     * Remotely dump multiple values under one name
+     *
+     * @param $name
+     * @param mixed ...$values
+     */
+    function rdm($name, ...$values): void
+    {
+        $options = [
+            Dumper::DEPTH => 1,
+            Dumper::TRUNCATE => 5000,
+            Dumper::LOCATION => false,
+        ];
+        $dumps = [];
+        foreach ($values as $value) {
+            $dumps[] = trim(Dumper::toTerminal($value, $options));
+        }
+        $message = ($name ? $name . ': ' : '') . implode(C::gray(' | '), $dumps) . "\n";
+        $trace = debug_backtrace()[1];
+        $message .= DogmaDebugTools::formatTraceLine($trace);
+
+        DogmaDebugTools::remoteWrite($message);
+    }
+}
+
+if (!function_exists('rda')) {
+
+    /**
+     * Remotely dump associative array of names and values
+     *
+     * @param mixed[] $values
+     */
+    function rda(array $values): void
+    {
+        $options = [
+            Dumper::DEPTH => 1,
+            Dumper::TRUNCATE => 5000,
+            Dumper::LOCATION => false,
+        ];
+        $dumps = [];
+        foreach ($values as $key => $value) {
+            $dumps[] = $key . C::gray(': ') . trim(Dumper::toTerminal($value, $options));
+        }
+        $message = implode(C::gray(' | '), $dumps) . "\n";
+        $trace = debug_backtrace()[1];
+        $message .= DogmaDebugTools::formatTraceLine($trace);
+
+        DogmaDebugTools::remoteWrite($message);
+    }
+}
+
+if (!function_exists('rf')) {
+
+    /**
+     * Remotely dump current function/method name
+     */
+    function rf(): void
+    {
+        $trace = debug_backtrace()[1];
+        $class = $trace['class'] ?? null;
+        $function = $trace['function'] ?? null;
+
+        if ($class !== null) {
+            $class = explode('\\', $class);
+            $class = end($class);
+
+            $message = C::color(" $class::$function() ", C::WHITE, C::RED);
+        } else {
+            $message = C::color(" $function() ", C::WHITE, C::RED);
+        }
+
+        DogmaDebugTools::remoteWrite($message . "\n");
+    }
 }
 
 if (!function_exists('rl')) {
 
     /**
-     * Remote label
+     * Remote dumper label
      *
      * @param mixed $label
      */
     function rl($label): void
     {
-        $message = "\x1B[1;37m\x1B[41m $label \x1B[0m\n";
+        $message = C::color(" $label ", C::WHITE, C::RED) . "\n";
 
         DogmaDebugTools::remoteWrite($message);
     }
-
 }
 
 if (!function_exists('t')) {
 
     /**
-     * Timer
+     * Remote dumper timer
      *
      * @param string|int|null $label
      */
@@ -267,11 +382,10 @@ if (!function_exists('t')) {
 
         $time = number_format((microtime(true) - $start) * 1000, 3, '.', ' ');
         $label = $label ? ucfirst($label) : 'Timer';
-        $message = "\x1B[1;37m\x1B[42m $label: $time ms \x1B[0m\n";
+        $message = C::color(" $label: $time ms ", C::WHITE, C::GREEN) . "\n";
 
         DogmaDebugTools::remoteWrite($message);
     }
-
 }
 
 ?>
