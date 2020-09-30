@@ -23,9 +23,12 @@ use Tracy\Dumper;
 
 if (!class_exists(Debugger::class)) {
     if (file_exists(__DIR__ . '/../../../tracy/tracy/src/tracy.php')) {
+        // as an app dependency
         require_once __DIR__ . '/../../../tracy/tracy/src/tracy.php';
     } elseif (file_exists(__DIR__ . '/../vendor/tracy/tracy/src/tracy.php')) {
-        require_once __DIR__ . '/../vendor/tracy/tracy/src/tracy.php';
+        // standalone (will fail if app includes tracy.php instead of auto-loading)
+        require_once __DIR__ . '/../vendor/tracy/tracy/src/Tracy/Dumper/Dumper.php';
+        require_once __DIR__ . '/../vendor/tracy/tracy/src/Tracy/Debugger/Debugger.php';
     } else {
         return;
     }
