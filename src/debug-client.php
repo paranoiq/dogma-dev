@@ -7,7 +7,8 @@
  * For the full copyright and license information read the file 'license.md', distributed with this source code
  */
 
-// spell-check-ignore: dt rl pid Pokeable
+// spell-check-ignore: dt rl pid sapi URI rdm rda rf Pokeable Dumpable
+// phpcs:disable SlevomatCodingStandard.Variables.DisallowSuperGlobalVariable
 
 /**
  * Configure this file as auto-prepended to use shortcuts in any project.
@@ -16,8 +17,8 @@
 require_once __DIR__ . '/DogmaDebugColors.php';
 
 use Dogma\Dumpable;
-use DogmaDebugColors as C;
 use Dogma\Pokeable;
+use DogmaDebugColors as C;
 use Tracy\Debugger;
 use Tracy\Dumper;
 
@@ -53,7 +54,7 @@ if (!class_exists('DogmaDebugTools')) {
     class DogmaDebugTools
     {
 
-        /** @var resource */
+        /** @var Socket|resource */
         private static $socket;
 
         /** @var int */
@@ -158,7 +159,7 @@ if (!class_exists('DogmaDebugTools')) {
             return C::padString($header, 120, '-');
         }
 
-        private static function highlightUrl($url): string
+        private static function highlightUrl(string $url): string
         {
             $url = preg_replace('/([a-zA-Z0-9_-]+)=/', C::yellow('$1') . '=', $url);
             $url = preg_replace('/=([a-zA-Z0-9_-]+)/', '=' . C::lcyan('$1'), $url);
@@ -210,6 +211,7 @@ if (!function_exists('d')) {
 
         return $params[0];
     }
+
 }
 
 if (!function_exists('bd')) {
@@ -224,6 +226,7 @@ if (!function_exists('bd')) {
 
         return $params[0];
     }
+
 }
 
 if (!function_exists('rd')) {
@@ -267,6 +270,7 @@ if (!function_exists('rd')) {
 
         return $value;
     }
+
 }
 
 if (!function_exists('rdm')) {
@@ -274,7 +278,7 @@ if (!function_exists('rdm')) {
     /**
      * Remotely dump multiple values under one name
      *
-     * @param $name
+     * @param string|int $name
      * @param mixed ...$values
      */
     function rdm($name, ...$values): void
@@ -294,6 +298,7 @@ if (!function_exists('rdm')) {
 
         DogmaDebugTools::remoteWrite($message);
     }
+
 }
 
 if (!function_exists('rda')) {
@@ -320,6 +325,7 @@ if (!function_exists('rda')) {
 
         DogmaDebugTools::remoteWrite($message);
     }
+
 }
 
 if (!function_exists('rf')) {
@@ -344,6 +350,7 @@ if (!function_exists('rf')) {
 
         DogmaDebugTools::remoteWrite($message . "\n");
     }
+
 }
 
 if (!function_exists('rl')) {
@@ -359,6 +366,7 @@ if (!function_exists('rl')) {
 
         DogmaDebugTools::remoteWrite($message);
     }
+
 }
 
 if (!function_exists('t')) {
@@ -389,6 +397,7 @@ if (!function_exists('t')) {
 
         DogmaDebugTools::remoteWrite($message);
     }
+
 }
 
 ?>

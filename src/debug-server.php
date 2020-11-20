@@ -29,7 +29,7 @@ $connections = [];
 while (true) {
     $newConnection = socket_accept($sock);
     if ($newConnection) {
-        if (is_resource($newConnection)) {
+        if ($newConnection !== false) {
             $connections[] = $newConnection;
         }
     }
