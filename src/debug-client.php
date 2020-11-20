@@ -75,7 +75,7 @@ if (!class_exists('DogmaDebugTools')) {
                 return null;
             }
             $source = file_get_contents($filePath);
-            $lines = explode("\n", $source);
+            $lines = explode("\n", (string) $source);
             $lineIndex = $sourceTrace['line'] - 1;
             if (!isset($lines[$lineIndex])) {
                 return null;
@@ -161,9 +161,9 @@ if (!class_exists('DogmaDebugTools')) {
 
         private static function highlightUrl(string $url): string
         {
-            $url = preg_replace('/([a-zA-Z0-9_-]+)=/', C::yellow('$1') . '=', $url);
-            $url = preg_replace('/=([a-zA-Z0-9_-]+)/', '=' . C::lcyan('$1'), $url);
-            $url = preg_replace('/[\\/?&=]/', C::gray('$0'), $url);
+            $url = (string) preg_replace('/([a-zA-Z0-9_-]+)=/', C::yellow('$1') . '=', $url);
+            $url = (string) preg_replace('/=([a-zA-Z0-9_-]+)/', '=' . C::lcyan('$1'), $url);
+            $url = (string) preg_replace('/[\\/?&=]/', C::gray('$0'), $url);
 
             return $url;
         }

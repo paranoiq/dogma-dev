@@ -48,7 +48,7 @@
         ],
         "phpcs:src": "sh vendor/bin/phpcs --standard=vendor/dogma/dogma-dev/src/CodeSniffer/ruleset-tests.xml --extensions=php --encoding=utf-8 --tab-width=4 -sp src",
         "phplint": "sh vendor/bin/parallel-lint src",
-        "phpstan": "sh vendor/bin/phpstan analyse -c build/phpstan.neon -l 5 src",
+        "phpstan": "sh vendor/bin/phpstan analyse -c build/phpstan.neon -l 8 src",
         "spell-check": "sh vendor/bin/spell-checker -c build/spell-checker.neon --checkDictionaryFiles --memoryLimit 1024M --noLogo"
     }
 }

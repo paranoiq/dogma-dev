@@ -100,7 +100,7 @@ if (!class_exists('DogmaDebugColors')) {
 
 		public static function remove(string $string): string
 		{
-			return preg_replace('/\\x1B\\[[^m]+m/U', '', $string);
+			return (string) preg_replace('/\\x1B\\[[^m]+m/U', '', $string);
 		}
 
 		public static function padString(string $string, int $length, string $with = ' ', int $type = STR_PAD_RIGHT): string
