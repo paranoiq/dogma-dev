@@ -44,7 +44,7 @@ if (!isset(Dumper::$objectExporters[Pokeable::class])) {
     Dumper::$objectExporters[Pokeable::class] = static function ($value) {
         $value->poke();
 
-        return (array) $value;
+        return $value instanceof Dumpable ? [$value->dump()] : (array) $value;
     };
 }
 
