@@ -30,25 +30,48 @@
     },
     "scripts": {
         "da": "composer dump-autoload",
+
         "check": [
-            "@phpstan",
-            "@phpcs:setup",
-            "@phpcs:src",
-            "@spell-check",
-            "@phplint"
+            "@stan",
+            "@cs-setup",
+            "@cs-src",
+            "@spell",
+            "@lint"
         ],
+        "check-all": [
+            "@stan-all",
+            "@lint-all",
+            "@cs-setup",
+            "@cs-src",
+            "@spell"
+        ],
+
+        "stan": "sh vendor/bin/phpstan analyse -c build/phpstan.neon -l 8 src",
+        "stan-74": "php74 vendor/phpstan/phpstan/phpstan analyse -c build/phpstan.neon -l 8 src",
+        "stan-all": [
+            "@stan",
+            "@stan-74"
+        ],
+
         "cs": [
-            "@phpcs:setup",
-            "@phpcs:src"
+            "@cs-setup",
+            "@cs-src"
         ],
-        "phpcs:setup": [
+        "cs-setup": [
             "php -r \"@mkdir('vendor/dogma/dogma-dev/src/CodeSniffer', 0777, true);\"",
             "php -r \"copy('src/CodeSniffer/ruleset.xml', 'vendor/dogma/dogma-dev/src/CodeSniffer/ruleset.xml');\"",
             "php -r \"copy('src/CodeSniffer/ruleset-tests.xml', 'vendor/dogma/dogma-dev/src/CodeSniffer/ruleset-tests.xml');\""
         ],
-        "phpcs:src": "sh vendor/bin/phpcs --standard=vendor/dogma/dogma-dev/src/CodeSniffer/ruleset-tests.xml --extensions=php --encoding=utf-8 --tab-width=4 -sp src",
-        "phplint": "sh vendor/bin/parallel-lint src",
-        "phpstan": "sh vendor/bin/phpstan analyse -c build/phpstan.neon -l 8 src",
-        "spell-check": "sh vendor/bin/spell-checker -c build/spell-checker.neon --checkDictionaryFiles --memoryLimit 1024M --noLogo"
+        "cs-src": "sh vendor/bin/phpcs --standard=vendor/dogma/dogma-dev/src/CodeSniffer/ruleset-tests.xml --extensions=php --encoding=utf-8 --tab-width=4 -sp src",
+
+        "lint": "sh vendor/bin/parallel-lint src",
+        "lint-all": [
+            "@lint",
+            "php74 vendor/php-parallel-lint/php-parallel-lint/parallel-lint src",
+            "php73 vendor/php-parallel-lint/php-parallel-lint/parallel-lint src",
+            "php72 vendor/php-parallel-lint/php-parallel-lint/parallel-lint src"
+        ],
+
+        "spell": "sh vendor/bin/spell-checker -c build/spell-checker.neon --checkDictionaryFiles --memoryLimit 1024M --noLogo"
     }
 }

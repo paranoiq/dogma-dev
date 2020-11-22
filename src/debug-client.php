@@ -170,10 +170,11 @@ if (!class_exists('DogmaDebugTools')) {
 
         private static function remoteConnect(): void
         {
-            self::$socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-            if (!self::$socket) {
+            $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+            if ($socket === false) {
                 die("Could not create socket to debug server.\n");
             }
+            self::$socket = $socket;
 
             $result = socket_connect(self::$socket, '127.0.0.1', 6666);
             if (!$result) {
