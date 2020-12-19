@@ -366,6 +366,13 @@ if (!function_exists('rl')) {
      */
     function rl($label): void
     {
+        if ($label === null) {
+            $label = 'null';
+        } elseif ($label === false) {
+            $label = 'false';
+        } elseif ($label === true) {
+            $label = 'true';
+        }
         $message = C::color(" $label ", C::WHITE, C::RED) . "\n";
 
         DogmaDebugTools::remoteWrite($message);
