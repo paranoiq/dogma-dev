@@ -141,8 +141,9 @@ if (!class_exists('DogmaDebugTools')) {
         {
             $dt = new DateTime();
             $time = $dt->format('Y-m-d H:i:s');
+            $version = PHP_VERSION;
             $sapi = PHP_SAPI;
-            $header = "\n" . C::color(" $time $sapi ", C::WHITE, C::BLUE) . " ";
+            $header = "\n" . C::color(" $time PHP $version $sapi ", C::WHITE, C::BLUE) . " ";
 
             if ($sapi === 'cli') {
                 $process = getmypid();
