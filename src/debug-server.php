@@ -32,9 +32,7 @@ $connections = [];
 while (true) {
     $newConnection = socket_accept($sock);
     if ($newConnection) {
-        if ($newConnection !== false) {
-            $connections[] = $newConnection;
-        }
+        $connections[] = $newConnection;
     }
 
     foreach ($connections as $i => $connection) {

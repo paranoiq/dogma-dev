@@ -223,7 +223,7 @@ class Assert
     /**
      * @param callable $function
      * @param int|string|mixed[] $expectedType
-     * @param string $expectedMessage message
+     * @param string|null $expectedMessage message
      * @return Throwable|null
      */
     public static function error(callable $function, $expectedType, ?string $expectedMessage = null): ?Throwable
