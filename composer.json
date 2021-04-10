@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "php": "^7.2|^8.0",
+        "php": "^7.1|^8.0",
         "nette/tester": "~2.3.1",
         "php-parallel-lint/php-console-highlighter": "~0.3",
         "php-parallel-lint/php-parallel-lint": "~1.0",
@@ -47,10 +47,9 @@
         ],
 
         "stan": "sh vendor/bin/phpstan analyse -c build/phpstan.neon -l 8 src",
-        "stan-74": "php74 vendor/phpstan/phpstan/phpstan analyse -c build/phpstan.neon -l 8 src",
         "stan-all": [
-            "@stan",
-            "@stan-74"
+            "php80 vendor/phpstan/phpstan/phpstan analyse -c build/phpstan.neon -l 8 src",
+            "php74 vendor/phpstan/phpstan/phpstan analyse -c build/phpstan.neon -l 8 src"
         ],
 
         "cs": [
@@ -66,10 +65,11 @@
 
         "lint": "sh vendor/bin/parallel-lint src",
         "lint-all": [
-            "@lint",
+            "php80 vendor/php-parallel-lint/php-parallel-lint/parallel-lint src",
             "php74 vendor/php-parallel-lint/php-parallel-lint/parallel-lint src",
             "php73 vendor/php-parallel-lint/php-parallel-lint/parallel-lint src",
-            "php72 vendor/php-parallel-lint/php-parallel-lint/parallel-lint src"
+            "php72 vendor/php-parallel-lint/php-parallel-lint/parallel-lint src",
+            "php71 vendor/php-parallel-lint/php-parallel-lint/parallel-lint src"
         ],
 
         "spell": "sh vendor/bin/spell-checker -c build/spell-checker.neon --checkDictionaryFiles --memoryLimit 1024M --noLogo"
