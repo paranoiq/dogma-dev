@@ -1,5 +1,11 @@
 <?xml version="1.0"?>
 <ruleset name="Dogma-tests">
+    <arg name="extensions" value="php,phpt"/>
+    <arg name="encoding" value="utf-8"/>
+    <arg name="tab-width" value="4"/>
+    <arg value="s"/> <!-- show rule names -->
+    <arg value="p"/> <!-- show progress -->
+
     <rule ref="./ruleset.xml">
         <!-- allow multiple classes and side effects in test files -->
         <exclude name="PSR1.Classes.ClassDeclaration.MultipleClasses"/>

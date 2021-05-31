@@ -1,5 +1,10 @@
 <?xml version="1.0"?>
 <ruleset name="Dogma">
+    <arg name="extensions" value="php"/>
+    <arg name="encoding" value="utf-8"/>
+    <arg name="tab-width" value="4"/>
+    <arg value="s"/> <!-- show rule names -->
+    <arg value="p"/> <!-- show progress -->
 
     <rule ref="Generic.Arrays.ArrayIndent">
         <exclude name="Generic.Arrays.ArrayIndent.CloseBraceNotNewLine"/><!-- multiline items causes evaluation as multiline array https://github.com/squizlabs/PHP_CodeSniffer/issues/1791 -->

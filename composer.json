@@ -2,7 +2,7 @@
     "name": "dogma/dogma-dev",
     "type": "library",
     "description": "Development tools and dependencies for Dogma and other projects.",
-    "homepage": "http://github.com/paranoiq/dogma-dev",
+    "homepage": "https://github.com/paranoiq/dogma-dev",
     "license": ["BSD-3-Clause"],
     "authors": [
         {
