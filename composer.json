@@ -15,12 +15,13 @@
         "nette/tester": "~2.3.1",
         "php-parallel-lint/php-console-highlighter": "~0.3",
         "php-parallel-lint/php-parallel-lint": "~1.0",
-        "phpstan/phpstan": "0.12.56",
-        "slevomat/coding-standard": "6.4.1",
+        "phpstan/phpstan": "0.12.96",
+        "slevomat/coding-standard": "7.0.13",
         "squizlabs/php_codesniffer": "^3.5.4",
         "spell-checker/spell-checker": "^0.3.16",
         "spell-checker/dictionary-en": "~0.1",
-        "tracy/tracy": "2.4.10"
+        "sllh/composer-versions-check": "^2.0",
+        "tracy/tracy": "^2.4"
     },
     "autoload": {
         "classmap": ["src"]

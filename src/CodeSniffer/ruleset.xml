@@ -133,42 +133,6 @@
 
     <rule ref="Squiz.Commenting.EmptyCatchComment"/>
 
-    <rule ref="Squiz.Commenting.FunctionComment">
-        <exclude name="Squiz.Commenting.FunctionComment.EmptyThrows"/><!-- @throws are forbidden -->
-        <exclude name="Squiz.Commenting.FunctionComment.IncorrectParamVarName"/><!-- requires long boolean and integer parameters -->
-        <exclude name="Squiz.Commenting.FunctionComment.IncorrectTypeHint"/><!-- collection syntax such as string[] is not supported -->
-        <exclude name="Squiz.Commenting.FunctionComment.InvalidReturn"/><!-- enforces incorrect types -->
-        <exclude name="Squiz.Commenting.FunctionComment.InvalidReturnNotVoid"/><!-- is not able to detect return types such as string|null as correct -->
-        <exclude name="Squiz.Commenting.FunctionComment.InvalidThrows"/><!-- @throws are forbidden -->
-        <exclude name="Squiz.Commenting.FunctionComment.Missing"/><!-- PHPDoc is not required on all methods -->
-        <exclude name="Squiz.Commenting.FunctionComment.MissingParamComment"/><!-- comments are not required for @param -->
-        <exclude name="Squiz.Commenting.FunctionComment.MissingReturn"/><!-- void type is not used -->
-        <exclude name="Squiz.Commenting.FunctionComment.ParamCommentFullStop"/><!-- comments don't have to be sentences -->
-        <exclude name="Squiz.Commenting.FunctionComment.ParamCommentNotCapital"/><!-- comments don't have to be sentences -->
-        <exclude name="Squiz.Commenting.FunctionComment.ScalarTypeHintMissing"/><!-- works only for code requiring PHP 7 code or better -->
-        <exclude name="Squiz.Commenting.FunctionComment.SpacingAfterParamName"/><!-- we don't want spacing with alignment -->
-        <exclude name="Squiz.Commenting.FunctionComment.SpacingAfterParamType"/><!-- we don't want spacing with alignment -->
-        <exclude name="Squiz.Commenting.FunctionComment.ThrowsNoFullStop"/><!-- @throws are forbidden -->
-        <exclude name="Squiz.Commenting.FunctionComment.ThrowsNotCapital"/><!-- @throws are forbidden -->
-        <exclude name="Squiz.Commenting.FunctionComment.TypeHintMissing"/><!-- doesn't work with self as typehint -->
-    </rule>
-
-    <rule ref="Squiz.Commenting.FunctionComment.DuplicateReturn">
-        <message>Only 1 @return annotation is allowed in a function comment</message>
-    </rule>
-
-    <rule ref="Squiz.Commenting.FunctionComment.ExtraParamComment">
-        <message>Extra @param annotation</message>
-    </rule>
-
-    <rule ref="Squiz.Commenting.FunctionComment.InvalidNoReturn">
-        <message>Function has no return statement, but annotation @return is present</message>
-    </rule>
-
-    <rule ref="Squiz.Commenting.FunctionComment.MissingParamTag">
-        <message>@param annotation for parameter "%s" missing</message>
-    </rule>
-
     <rule ref="Squiz.ControlStructures.ControlSignature"/>
     <rule ref="Squiz.ControlStructures.ForEachLoopDeclaration"/>
     <rule ref="Squiz.ControlStructures.ForLoopDeclaration"/>
@@ -247,7 +211,9 @@
         <exclude name="SlevomatCodingStandard.Classes.ClassStructure.IncorrectGroupOrder"/>
         <exclude name="SlevomatCodingStandard.Classes.ConstantSpacing.IncorrectCountOfBlankLinesAfterConstant"/>
         <exclude name="SlevomatCodingStandard.Classes.EmptyLinesAroundClassBraces.NoEmptyLineAfterOpeningBrace"/>
+        <exclude name="SlevomatCodingStandard.Classes.ForbiddenPublicProperty.ForbiddenPublicProperty"/>
         <exclude name="SlevomatCodingStandard.Classes.MethodSpacing.IncorrectLinesCountBetweenMethods"/><!-- ignores comments between methods -->
+        <exclude name="SlevomatCodingStandard.Classes.RequireConstructorPropertyPromotion.RequiredConstructorPropertyPromotion"/>
         <exclude name="SlevomatCodingStandard.Classes.RequireMultiLineMethodSignature.RequiredMultiLineSignature"/>
         <exclude name="SlevomatCodingStandard.Classes.RequireSingleLineMethodSignature.RequiredSingleLineSignature"/>
         <exclude name="SlevomatCodingStandard.Classes.SuperfluousErrorNaming.SuperfluousSuffix"/>
@@ -275,8 +241,10 @@
         <exclude name="SlevomatCodingStandard.ControlStructures.RequireSingleLineCondition.RequiredSingleLineCondition"/>
         <exclude name="SlevomatCodingStandard.ControlStructures.RequireTernaryOperator.TernaryOperatorNotUsed"/>
         <exclude name="SlevomatCodingStandard.ControlStructures.UselessConditionWithReturn.UselessIfCondition"/>
+        <exclude name="SlevomatCodingStandard.Files.FunctionLength.FunctionLength"/>
         <exclude name="SlevomatCodingStandard.Files.LineLength.LineTooLong"/>
         <exclude name="SlevomatCodingStandard.Files.TypeNameMatchesFileName.NoMatchBetweenTypeNameAndFileName"/>
+        <exclude name="SlevomatCodingStandard.Functions.FunctionLength.FunctionLength"/>
         <exclude name="SlevomatCodingStandard.Functions.UnusedParameter.UnusedParameter"/>
         <exclude name="SlevomatCodingStandard.Functions.RequireMultiLineCall.RequiredMultiLineCall"/>
         <exclude name="SlevomatCodingStandard.Namespaces.FullyQualifiedClassNameInAnnotation.NonFullyQualifiedClassName"/>
@@ -329,14 +297,6 @@
         <exclude-pattern>TestClass</exclude-pattern>
     </rule>
 
-    <rule ref="SlevomatCodingStandard.Commenting.UselessFunctionDocComment">
-        <properties>
-            <property name="traversableTypeHints" type="array">
-                <element value="Traversable"/>
-            </property>
-        </properties>
-    </rule>
-
     <rule ref="SlevomatCodingStandard.Files.TypeNameMatchesFileName">
         <exclude-pattern>/exceptions/</exclude-pattern>
         <exclude-pattern>/tests/</exclude-pattern>
@@ -351,11 +311,14 @@
 
     <rule ref="SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly">
         <properties>
+            <property name="searchAnnotations" value="true"/>
+            <property name="allowPartialUses" value="false"/>
             <property name="allowFallbackGlobalFunctions" value="false"/>
             <property name="allowFallbackGlobalConstants" value="false"/>
             <property name="allowFullyQualifiedExceptions" value="false"/>
-            <property name="allowPartialUses" value="false"/>
-            <property name="searchAnnotations" value="true"/>
+            <property name="allowFullyQualifiedNameForCollidingClasses" value="true"/>
+            <property name="allowFullyQualifiedNameForCollidingFunctions" value="true"/>
+            <property name="allowFullyQualifiedNameForCollidingConstants" value="true"/>
         </properties>
     </rule>
 
@@ -367,17 +330,17 @@
 
     <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes">
         <properties>
-            <property name="newlinesCountBetweenOpenTagAndDeclare" value="0"/>
+            <property name="declareOnFirstLine" value="true"/>
         </properties>
     </rule>
 
     <rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHint">
-        <exclude name="SlevomatCodingStandard.TypeHints.ParameterTypeHint.UselessAnnotation"/>
         <properties>
+            <!--<property name="enableMixedTypeHint" value="true"/> PHP 8.0 -->
+            <!--<property name="enableUnionTypeHint" value="true"/> PHP 8.0 -->
             <property name="traversableTypeHints" type="array">
-                <element value="Traversable"/>
+                <element value="Traversable,Generator"/>
             </property>
-            <property name="usefulAnnotations" type="array" value="@dataProvider,@deprecated,@internal,@see,@throws"/>
         </properties>
     </rule>
 
@@ -400,11 +363,6 @@
 
     <rule ref="SlevomatCodingStandard.Variables.UnusedVariable">
         <property name="ignoreUnusedValuesWhenOnlyKeysAreUsedInForeach" value="true"/>
-    </rule>
-
-    <rule ref="Squiz.Commenting.FunctionComment">
-        <exclude-pattern>tests/</exclude-pattern><!-- @dataProvider etc. annotations trigger comments check -->
-        <exclude name="Squiz.Commenting.FunctionComment.WrongStyle"/><!-- bullshit -->
     </rule>
 
 </ruleset>
