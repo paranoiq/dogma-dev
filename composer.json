@@ -20,10 +20,7 @@
         "squizlabs/php_codesniffer": "^3.5.4",
         "spell-checker/spell-checker": "^0.3.16",
         "spell-checker/dictionary-en": "~0.1",
-        "tracy/tracy": "~2.4"
-    },
-    "suggest": {
-        "ext-sockets": "For debug-server.php and debug-client.php"
+        "tracy/tracy": "2.4.10"
     },
     "autoload": {
         "classmap": ["src"]
