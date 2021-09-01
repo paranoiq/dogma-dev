@@ -12,6 +12,7 @@
     ],
     "require": {
         "php": "^7.1|^8.0",
+        "maglnet/composer-require-checker": "~2.0|~3.0",
         "nette/tester": "~2.3.1",
         "php-parallel-lint/php-console-highlighter": "~0.3",
         "php-parallel-lint/php-parallel-lint": "~1.0",
