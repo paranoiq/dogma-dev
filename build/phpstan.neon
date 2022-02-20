@@ -4,4 +4,3 @@ includes:
 
 parameters:
     ignoreErrors:
-        - '#Method DogmaDebugColors::.* has parameter \$string with no typehint specified#'

@@ -43,7 +43,6 @@ class Assert
     /**
      * @param mixed $actual
      * @param mixed $expected
-     * @param string|null $description
      */
     public static function same($actual, $expected, ?string $description = null): void
     {
@@ -53,7 +52,6 @@ class Assert
     /**
      * @param mixed $actual
      * @param mixed $expected
-     * @param string|null $description
      */
     public static function notSame($actual, $expected, ?string $description = null): void
     {
@@ -64,7 +62,6 @@ class Assert
      * Added support for comparing object with Equalable interface
      * @param mixed $actual
      * @param mixed $expected
-     * @param string|null $description
      */
     public static function equal($actual, $expected, ?string $description = null): void
     {
@@ -85,7 +82,6 @@ class Assert
      * Added support for comparing object with Equalable interface
      * @param mixed $actual
      * @param mixed $expected
-     * @param string|null $description
      */
     public static function notEqual($actual, $expected, ?string $description = null): void
     {
@@ -105,7 +101,6 @@ class Assert
     /**
      * @param mixed $haystack
      * @param mixed $needle
-     * @param string|null $description
      */
     public static function contains($haystack, $needle, ?string $description = null): void
     {
@@ -115,7 +110,6 @@ class Assert
     /**
      * @param mixed $haystack
      * @param mixed $needle
-     * @param string|null $description
      */
     public static function notContains($haystack, $needle, ?string $description = null): void
     {
@@ -124,7 +118,6 @@ class Assert
 
     /**
      * @param mixed $actual
-     * @param string|null $description
      */
     public static function true($actual, ?string $description = null): void
     {
@@ -133,7 +126,6 @@ class Assert
 
     /**
      * @param mixed $actual
-     * @param string|null $description
      */
     public static function false($actual, ?string $description = null): void
     {
@@ -142,7 +134,6 @@ class Assert
 
     /**
      * @param mixed $actual
-     * @param string|null $description
      */
     public static function null($actual, ?string $description = null): void
     {
@@ -151,7 +142,6 @@ class Assert
 
     /**
      * @param mixed $actual
-     * @param string|null $description
      */
     public static function nan($actual, ?string $description = null): void
     {
@@ -160,7 +150,6 @@ class Assert
 
     /**
      * @param mixed $actual
-     * @param string|null $description
      */
     public static function truthy($actual, ?string $description = null): void
     {
@@ -169,7 +158,6 @@ class Assert
 
     /**
      * @param mixed $actual
-     * @param string|null $description
      */
     public static function falsey($actual, ?string $description = null): void
     {
@@ -178,8 +166,6 @@ class Assert
 
     /**
      * @param mixed $actualValue
-     * @param int $expectedCount
-     * @param string|null $description
      */
     public static function count($actualValue, int $expectedCount, ?string $description = null): void
     {
@@ -189,7 +175,6 @@ class Assert
     /**
      * @param mixed $actualValue
      * @param string|mixed $expectedType
-     * @param string|null $description
      */
     public static function type($actualValue, $expectedType, ?string $description = null): void
     {
@@ -197,11 +182,7 @@ class Assert
     }
 
     /**
-     * @param callable $function
-     * @param string $class
-     * @param string|null $message
      * @param mixed|int|null $code
-     * @return Throwable|null
      */
     public static function exception(callable $function, string $class, ?string $message = null, $code = null): ?Throwable
     {
@@ -209,11 +190,7 @@ class Assert
     }
 
     /**
-     * @param callable $function
-     * @param string $class
-     * @param string|null $message
      * @param mixed|int|null $code
-     * @return Throwable|null
      */
     public static function throws(callable $function, string $class, ?string $message = null, $code = null): ?Throwable
     {
@@ -221,10 +198,7 @@ class Assert
     }
 
     /**
-     * @param callable $function
      * @param int|string|mixed[] $expectedType
-     * @param string|null $expectedMessage message
-     * @return Throwable|null
      */
     public static function error(callable $function, $expectedType, ?string $expectedMessage = null): ?Throwable
     {
@@ -239,7 +213,6 @@ class Assert
     /**
      * @param mixed $actualValue
      * @param string|mixed $mask
-     * @param string|null $description
      */
     public static function match($actualValue, $mask, ?string $description = null): void
     {
@@ -249,7 +222,6 @@ class Assert
     /**
      * @param mixed $actualValue
      * @param mixed $file
-     * @param string|null $description
      */
     public static function matchFile($actualValue, $file, ?string $description = null): void
     {
@@ -279,7 +251,6 @@ class Assert
      * @param mixed $actual
      * @param mixed $level
      * @param mixed|null $objects
-     * @return bool
      * @internal
      */
     public static function isEqual($expected, $actual, $level = 0, $objects = null): bool
@@ -335,7 +306,6 @@ class Assert
     /**
      * @param mixed $reason
      * @param mixed $description
-     * @return string
      */
     private static function describe($reason, $description): string
     {
@@ -344,7 +314,6 @@ class Assert
 
     /**
      * @param mixed $obj
-     * @param Closure $closure
      */
     public static function with($obj, Closure $closure): void
     {
