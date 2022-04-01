@@ -91,6 +91,7 @@
     <rule ref="PSR2.ControlStructures.SwitchDeclaration">
         <exclude name="PSR2.ControlStructures.SwitchDeclaration.caseIndent"/><!-- checked by more generic Generic.WhiteSpace.ScopeIndent.Incorrect -->
         <exclude name="PSR2.ControlStructures.SwitchDeclaration.defaultIndent"/><!-- checked by more generic Generic.WhiteSpace.ScopeIndent.Incorrect -->
+        <exclude name="PSR2.ControlStructures.SwitchDeclaration.TerminatingComment"/><!-- false positives, because it does not work with never return type -->
     </rule>
 
     <rule ref="PSR2.Files.ClosingTag"/>
