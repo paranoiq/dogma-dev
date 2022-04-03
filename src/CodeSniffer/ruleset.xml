@@ -154,6 +154,7 @@
 
     <rule ref="Squiz.Operators.IncrementDecrementUsage">
         <exclude name="Squiz.Operators.IncrementDecrementUsage.NoBrackets"/><!-- afaik there is no need for brackets -->
+        <exclude name="Squiz.Operators.IncrementDecrementUsage.Found"/><!-- i just like $foo += 1; -->
     </rule>
 
     <rule ref="Squiz.Operators.ValidLogicalOperators"/>
