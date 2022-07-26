@@ -274,6 +274,10 @@
         <exclude name="SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint"/>
         <exclude name="SlevomatCodingStandard.Types.EmptyLinesAroundTypeBraces.NoEmptyLineAfterOpeningBrace"/>
         <exclude name="SlevomatCodingStandard.Whitespaces.DuplicateSpaces.DuplicateSpaces"/><!-- comment formatting, tables etc. -->
+        <exclude name="SlevomatCodingStandard.Complexity.Cognitive"/>
+        <exclude name="SlevomatCodingStandard.Files.FileLength"/>
+        <exclude name="SlevomatCodingStandard.Classes.ClassLength"/>
+        <exclude name="SlevomatCodingStandard.Classes.RequireAbstractOrFinal.ClassNeitherAbstractNorFinal"/>
 
         <!-- requires PHP 7.3 -->
         <exclude name="SlevomatCodingStandard.Functions.TrailingCommaInCall.MissingTrailingComma"/>

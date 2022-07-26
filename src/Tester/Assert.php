@@ -18,7 +18,6 @@ use Exception;
 use SplObjectStorage;
 use Tester\Assert as NetteAssert;
 use Throwable;
-use const SORT_STRING;
 use function abs;
 use function array_keys;
 use function current;
@@ -30,6 +29,7 @@ use function is_object;
 use function ksort;
 use function max;
 use function next;
+use const SORT_STRING;
 
 /**
  * Tester\Assert with fixed order of parameters
