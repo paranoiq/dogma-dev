@@ -13,7 +13,6 @@ namespace Dogma\Tester;
 
 use Closure;
 use Dogma\Equalable;
-use Dogma\Pokeable;
 use Exception;
 use SplObjectStorage;
 use Tester\Assert as NetteAssert;
@@ -235,12 +234,6 @@ class Assert
      */
     public static function fail($message, $actual = null, $expected = null): void
     {
-        if ($expected instanceof Pokeable) {
-            $expected->poke();
-        }
-        if ($actual instanceof Pokeable) {
-            $actual->poke();
-        }
         NetteAssert::fail($message, $expected, $actual);
     }
 
