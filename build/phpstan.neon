@@ -1,6 +1,18 @@
 
 includes:
-	- phpstan.conf.php
+    - ../vendor/phpstan/phpstan-strict-rules/rules.neon
+    - ../vendor/phpstan/phpstan/conf/bleedingEdge.neon
+    - phpstan.conf.php
 
 parameters:
+    level: 9
+
+    featureToggles:
+        disableRuntimeReflectionProvider: true
+
+    paths:
+        - ../src
+        - ../tests
+        - ../build
+
     ignoreErrors:

@@ -24,7 +24,7 @@
         "tracy/tracy": "^2.8"
     },
     "require-dev": {
-        "phpstan/phpstan": "1.4.10",
+        "phpstan/phpstan": "1.10.7",
         "phpstan/phpstan-strict-rules": "^1.0"
     },
     "autoload": {
@@ -79,14 +79,14 @@
             "@spell:check"
         ],
 
-        "phpstan:run": "php vendor/phpstan/phpstan/phpstan analyse -c build/phpstan.neon -l 8 src",
+        "phpstan:run": "php vendor/phpstan/phpstan/phpstan analyse -c build/phpstan.neon",
         "phpstan:all": [
-            "php82 vendor/phpstan/phpstan/phpstan analyse -c build/phpstan.neon -l 8 src",
-            "php81 vendor/phpstan/phpstan/phpstan analyse -c build/phpstan.neon -l 8 src",
-            "php80 vendor/phpstan/phpstan/phpstan analyse -c build/phpstan.neon -l 8 src",
-            "php74 vendor/phpstan/phpstan/phpstan analyse -c build/phpstan.neon -l 8 src",
-            "php73 vendor/phpstan/phpstan/phpstan analyse -c build/phpstan.neon -l 8 src",
-            "php72 vendor/phpstan/phpstan/phpstan analyse -c build/phpstan.neon -l 8 src"
+            "php82 vendor/phpstan/phpstan/phpstan analyse -c build/phpstan.neon",
+            "php81 vendor/phpstan/phpstan/phpstan analyse -c build/phpstan.neon",
+            "php80 vendor/phpstan/phpstan/phpstan analyse -c build/phpstan.neon",
+            "php74 vendor/phpstan/phpstan/phpstan analyse -c build/phpstan.neon",
+            "php73 vendor/phpstan/phpstan/phpstan analyse -c build/phpstan.neon",
+            "php72 vendor/phpstan/phpstan/phpstan analyse -c build/phpstan.neon"
         ],
 
         "phpcs:run": [
