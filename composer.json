@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "php": "^7.2|^8.0",
+        "php": "^7.1|^8.0",
         "ext-json": "*",
         "maglnet/composer-require-checker": "~2.0|~3.0",
         "nette/tester": "^2.4",
@@ -86,7 +86,8 @@
             "php80 vendor/phpstan/phpstan/phpstan analyse -c build/phpstan.neon",
             "php74 vendor/phpstan/phpstan/phpstan analyse -c build/phpstan.neon",
             "php73 vendor/phpstan/phpstan/phpstan analyse -c build/phpstan.neon",
-            "php72 vendor/phpstan/phpstan/phpstan analyse -c build/phpstan.neon"
+            "php72 vendor/phpstan/phpstan/phpstan analyse -c build/phpstan.neon",
+            "php72 vendor/phpstan/phpstan/phpstan analyse -c build/phpstan71.neon"
         ],
 
         "phpcs:run": [
@@ -107,7 +108,8 @@
             "php80 vendor/php-parallel-lint/php-parallel-lint/parallel-lint src",
             "php74 vendor/php-parallel-lint/php-parallel-lint/parallel-lint src",
             "php73 vendor/php-parallel-lint/php-parallel-lint/parallel-lint src",
-            "php72 vendor/php-parallel-lint/php-parallel-lint/parallel-lint src"
+            "php72 vendor/php-parallel-lint/php-parallel-lint/parallel-lint src",
+            "php71 vendor/php-parallel-lint/php-parallel-lint/parallel-lint src"
         ],
 
         "package:check": "php src/package-check.php",
