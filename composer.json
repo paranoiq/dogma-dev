@@ -1,17 +1,18 @@
 {
     "name": "dogma/dogma-dev",
     "type": "library",
-    "description": "Development tools and dependencies for Dogma and other projects.",
+    "description": "Development tools and dependencies for Dogma and other projects",
     "homepage": "https://github.com/paranoiq/dogma-dev",
     "license": ["BSD-3-Clause"],
     "authors": [
         {
             "name": "Vlasta Neubauer",
-            "homepage": "https://www.paranoiq.cz"
+            "homepage": "https://paranoiq.cz"
         }
     ],
     "require": {
         "php": "^7.2|^8.0",
+        "ext-json": "*",
         "maglnet/composer-require-checker": "~2.0|~3.0",
         "nette/tester": "^2.4",
         "php-parallel-lint/php-console-highlighter": "~0.3",
@@ -20,19 +21,49 @@
         "squizlabs/php_codesniffer": "^3.5.4",
         "spell-checker/spell-checker": "^0.3.21",
         "spell-checker/dictionary-en": "~0.1",
-        "sllh/composer-versions-check": "^2.0",
         "tracy/tracy": "^2.8"
     },
     "require-dev": {
-        "phpstan/phpstan": "1.8.2"
+        "phpstan/phpstan": "1.4.10",
+        "phpstan/phpstan-strict-rules": "^1.0"
     },
     "autoload": {
         "classmap": ["src"]
     },
+    "autoload-dev": {
+        "classmap": ["tests"]
+    },
+    "replace": {
+        "dealerdirect/phpcodesniffer-composer-installer": "*"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": false
+        }
+    },
     "scripts": {
         "da": "composer dump-autoload",
 
+        "ag": "@build:doc",
+        "b": "@build:init",
+        "c": "@check:all",
+        "cf": "@check:fast",
+        "r": "@build:rector",
+        "t": "@tests:run",
+        "tm": "@tests:mysql",
+        "tms": "@tests:mysql-s",
+        "tc": "@tests:coverage",
+        "ps": "@phpstan:run",
+        "sc": "@spell:check",
+        "cs": [
+            "@phpcs:src",
+            "@phpcs:tests"
+        ],
+        "csf": "@phpcs:fix",
+        "pc": "@package:check",
+
         "check:run": [
+            "@package:check",
             "@phpstan:run",
             "@phpcs:setup",
             "@phpcs:src",
@@ -40,6 +71,7 @@
             "@phplint:run"
         ],
         "check:all": [
+            "@package:check",
             "@phpstan:all",
             "@phplint:all",
             "@phpcs:setup",
@@ -78,12 +110,7 @@
             "php72 vendor/php-parallel-lint/php-parallel-lint/parallel-lint src"
         ],
 
+        "package:check": "php src/package-check.php",
         "spell:check": "php vendor/spell-checker/spell-checker/spell-checker.php -c build/spell-checker.neon --checkDictionaryFiles --memoryLimit 1024M --noLogo"
-    },
-    "config": {
-        "allow-plugins": {
-            "dealerdirect/phpcodesniffer-composer-installer": false,
-            "sllh/composer-versions-check": true
-        }
     }
 }
