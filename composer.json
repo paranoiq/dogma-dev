@@ -33,9 +33,6 @@
     "autoload-dev": {
         "classmap": ["tests"]
     },
-    "replace": {
-        "dealerdirect/phpcodesniffer-composer-installer": "*"
-    },
     "config": {
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": false
