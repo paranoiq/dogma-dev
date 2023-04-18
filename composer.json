@@ -11,15 +11,15 @@
         }
     ],
     "require": {
-        "php": "^7.1|^8.0",
+        "php": "^7.4|^8.0",
         "ext-json": "*",
         "maglnet/composer-require-checker": "~2.0|~3.0",
         "nette/tester": "^2.4",
         "php-parallel-lint/php-console-highlighter": "~0.3",
         "php-parallel-lint/php-parallel-lint": "~1.0",
-        "slevomat/coding-standard": "8.3.0",
-        "squizlabs/php_codesniffer": "^3.5.4",
-        "spell-checker/spell-checker": "^0.3.21",
+        "slevomat/coding-standard": "8.10.0",
+        "squizlabs/php_codesniffer": "^3.7.2",
+        "spell-checker/spell-checker": "^0.3.23",
         "spell-checker/dictionary-en": "~0.1",
         "tracy/tracy": "^2.8"
     },
@@ -35,7 +35,8 @@
     },
     "config": {
         "allow-plugins": {
-            "dealerdirect/phpcodesniffer-composer-installer": false
+            "dealerdirect/phpcodesniffer-composer-installer": false,
+            "sllh/composer-versions-check": false
         }
     },
     "scripts": {
@@ -76,15 +77,12 @@
             "@spell:check"
         ],
 
-        "phpstan:run": "php vendor/phpstan/phpstan/phpstan analyse -c build/phpstan.neon",
+        "phpstan:run": "php vendor/phpstan/phpstan/phpstan analyse --memory-limit 256M -c build/phpstan.neon",
         "phpstan:all": [
-            "php82 vendor/phpstan/phpstan/phpstan analyse -c build/phpstan.neon",
-            "php81 vendor/phpstan/phpstan/phpstan analyse -c build/phpstan.neon",
-            "php80 vendor/phpstan/phpstan/phpstan analyse -c build/phpstan.neon",
-            "php74 vendor/phpstan/phpstan/phpstan analyse -c build/phpstan.neon",
-            "php73 vendor/phpstan/phpstan/phpstan analyse -c build/phpstan.neon",
-            "php72 vendor/phpstan/phpstan/phpstan analyse -c build/phpstan.neon",
-            "php72 vendor/phpstan/phpstan/phpstan analyse -c build/phpstan71.neon"
+            "php82 vendor/phpstan/phpstan/phpstan analyse --memory-limit 256M -c build/phpstan.neon",
+            "php81 vendor/phpstan/phpstan/phpstan analyse --memory-limit 256M -c build/phpstan.neon",
+            "php80 vendor/phpstan/phpstan/phpstan analyse --memory-limit 256M -c build/phpstan.neon",
+            "php74 vendor/phpstan/phpstan/phpstan analyse --memory-limit 256M -c build/phpstan.neon"
         ],
 
         "phpcs:run": [
@@ -103,10 +101,7 @@
             "php82 vendor/php-parallel-lint/php-parallel-lint/parallel-lint src",
             "php81 vendor/php-parallel-lint/php-parallel-lint/parallel-lint src",
             "php80 vendor/php-parallel-lint/php-parallel-lint/parallel-lint src",
-            "php74 vendor/php-parallel-lint/php-parallel-lint/parallel-lint src",
-            "php73 vendor/php-parallel-lint/php-parallel-lint/parallel-lint src",
-            "php72 vendor/php-parallel-lint/php-parallel-lint/parallel-lint src",
-            "php71 vendor/php-parallel-lint/php-parallel-lint/parallel-lint src"
+            "php74 vendor/php-parallel-lint/php-parallel-lint/parallel-lint src"
         ],
 
         "package:check": "php src/package-check.php",

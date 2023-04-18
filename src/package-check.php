@@ -2,14 +2,12 @@
 
 (new class {
 
-    /** @var string */
-    private $base;
+    private string $base;
 
     /** @var list<string> */
-    private $devDirs;
+    private array $devDirs;
 
-    /** @var bool */
-    private $failed = false;
+    private bool $failed = false;
 
     public function __invoke(): void
     {
