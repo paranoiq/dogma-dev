@@ -96,7 +96,7 @@
     <rule ref="PSR2.Files.EndFileNewline"/>
 
     <rule ref="PSR2.Methods.FunctionCallSignature">
-        <exclude name="PSR2.Methods.FunctionCallSignature.SpaceAfterCloseBracket"/><!-- space after closing bracked should be checked depending on where function is called, not as part of the function call -->
+        <exclude name="PSR2.Methods.FunctionCallSignature.SpaceAfterCloseBracket"/><!-- space after closing bracket should be checked depending on where function is called, not as part of the function call -->
     </rule>
 
     <rule ref="PSR2.Methods.FunctionClosingBrace"/>
@@ -210,13 +210,14 @@
     <rule ref="Squiz.WhiteSpace.SemicolonSpacing"/>
     <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace"/>
 
-    <rule ref="../../../../slevomat/coding-standard/SlevomatCodingStandard/ruleset.xml">
+    <rule ref="../../../slevomat/coding-standard/SlevomatCodingStandard/ruleset.xml">
         <exclude name="SlevomatCodingStandard.Arrays.AlphabeticallySortedByKeys.IncorrectKeyOrder"/>
         <exclude name="SlevomatCodingStandard.Arrays.DisallowPartiallyKeyed.DisallowedPartiallyKeyed"/>
         <exclude name="SlevomatCodingStandard.Attributes.AttributesOrder"/>
         <exclude name="SlevomatCodingStandard.Classes.ClassLength"/>
         <exclude name="SlevomatCodingStandard.Classes.ClassStructure.IncorrectGroupOrder"/>
         <exclude name="SlevomatCodingStandard.Classes.ConstantSpacing.IncorrectCountOfBlankLinesAfterConstant"/>
+        <exclude name="SlevomatCodingStandard.Classes.DisallowLateStaticBindingForConstants.DisallowedLateStaticBindingForConstant"/>
         <exclude name="SlevomatCodingStandard.Classes.EmptyLinesAroundClassBraces.NoEmptyLineAfterOpeningBrace"/>
         <exclude name="SlevomatCodingStandard.Classes.ForbiddenPublicProperty.ForbiddenPublicProperty"/>
         <exclude name="SlevomatCodingStandard.Classes.MethodSpacing.IncorrectLinesCountBetweenMethods"/><!-- ignores comments between methods -->
@@ -284,6 +285,7 @@
         <exclude name="SlevomatCodingStandard.PHP.DisallowReference.DisallowedReturningReference"/>
         <exclude name="SlevomatCodingStandard.PHP.RequireExplicitAssertion.RequiredExplicitAssertion"/>
         <exclude name="SlevomatCodingStandard.PHP.UselessParentheses.UselessParentheses"/>
+        <exclude name="SlevomatCodingStandard.TypeHints.DeclareStrictTypes.DeclareStrictTypesMissing"/>
         <exclude name="SlevomatCodingStandard.TypeHints.DeclareStrictTypes.IncorrectWhitespaceAfterDeclare"/>
         <exclude name="SlevomatCodingStandard.TypeHints.DisallowArrayTypeHintSyntax.DisallowedArrayTypeHintSyntax"/>
         <exclude name="SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint"/>

@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php
 
 (new class {
 
@@ -21,9 +21,9 @@
         $this->base = $base;
 
         $dirs = ['build', 'doc', 'test', 'tests'];
-        $this->devDirs = array_filter(array_map(function (string $dir): ?string {
+        $this->devDirs = array_values(array_filter(array_map(function (string $dir): ?string {
             return is_dir($this->base . '/' . $dir) ? $dir : null;
-        }, $dirs));
+        }, $dirs)));
 
         $this->checkGitAttributes();
         $this->checkComposerJson();
@@ -69,7 +69,7 @@
             $this->failed = true;
             return;
         }
-        $data = json_decode($json, true);
+        $data = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
         if (!is_array($data)) {
             echo "\e[0;33m Wrong contents of composer.json \e[0m\n";
             $this->failed = true;

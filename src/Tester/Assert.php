@@ -22,7 +22,6 @@ use Throwable;
 use function abs;
 use function array_keys;
 use function current;
-use function get_class;
 use function is_array;
 use function is_finite;
 use function is_float;
@@ -33,7 +32,7 @@ use function next;
 use const SORT_STRING;
 
 /**
- * Tester\Assert with fixed order of parameters
+ * Tester\Assert with consistent order of parameters ($actual is always first)
  * Added support for comparing object with Equalable interface
  */
 class Assert
@@ -41,32 +40,22 @@ class Assert
 
     private const EPSILON = 1e-10;
 
-    /**
-     * @param mixed $actual
-     * @param mixed $expected
-     */
-    public static function same($actual, $expected, ?string $description = null): void
+    public static function same(mixed $actual, mixed $expected, ?string $description = null): void
     {
         NetteAssert::same($expected, $actual, $description);
     }
 
-    /**
-     * @param mixed $actual
-     * @param mixed $expected
-     */
-    public static function notSame($actual, $expected, ?string $description = null): void
+    public static function notSame(mixed $actual, mixed $expected, ?string $description = null): void
     {
         NetteAssert::notSame($expected, $actual, $description);
     }
 
     /**
      * Added support for comparing object with Equalable interface
-     * @param mixed $actual
-     * @param mixed $expected
      */
-    public static function equal($actual, $expected, ?string $description = null): void
+    public static function equal(mixed $actual, mixed $expected, ?string $description = null): void
     {
-        if ($actual instanceof Equalable && $expected instanceof Equalable && get_class($actual) === get_class($expected)) {
+        if ($actual instanceof Equalable && $expected instanceof Equalable && $actual::class === $expected::class) {
             NetteAssert::$counter++;
             if (!$actual->equals($expected)) {
                 self::fail(self::describe('%1 should be equal to %2', $description), $expected, $actual);
@@ -81,12 +70,10 @@ class Assert
 
     /**
      * Added support for comparing object with Equalable interface
-     * @param mixed $actual
-     * @param mixed $expected
      */
-    public static function notEqual($actual, $expected, ?string $description = null): void
+    public static function notEqual(mixed $actual, mixed $expected, ?string $description = null): void
     {
-        if ($actual instanceof Equalable && $expected instanceof Equalable && get_class($actual) === get_class($expected)) {
+        if ($actual instanceof Equalable && $expected instanceof Equalable && $actual::class === $expected::class) {
             NetteAssert::$counter++;
             if ($actual->equals($expected)) {
                 self::fail(self::describe('%1 should not be equal to %2', $description), $expected, $actual);
@@ -100,108 +87,84 @@ class Assert
     }
 
     /**
-     * @param mixed[]|string $haystack
-     * @param mixed $needle
+     * @param array<mixed>|string $haystack
      */
-    public static function contains($haystack, $needle, ?string $description = null): void
+    public static function contains(array|string $haystack, mixed $needle, ?string $description = null): void
     {
         NetteAssert::contains($needle, $haystack, $description);
     }
 
     /**
-     * @param mixed[]|string $haystack
-     * @param mixed $needle
+     * @param array<mixed>|string $haystack
      */
-    public static function notContains($haystack, $needle, ?string $description = null): void
+    public static function notContains(array|string $haystack, mixed $needle, ?string $description = null): void
     {
         NetteAssert::notContains($needle, $haystack, $description);
     }
 
-    /**
-     * @param mixed $actual
-     */
-    public static function true($actual, ?string $description = null): void
+    public static function true(mixed $actual, ?string $description = null): void
     {
         NetteAssert::true($actual, $description);
     }
 
-    /**
-     * @param mixed $actual
-     */
-    public static function false($actual, ?string $description = null): void
+    public static function false(mixed $actual, ?string $description = null): void
     {
         NetteAssert::false($actual, $description);
     }
 
-    /**
-     * @param mixed $actual
-     */
-    public static function null($actual, ?string $description = null): void
+    public static function null(mixed $actual, ?string $description = null): void
     {
         NetteAssert::null($actual, $description);
     }
 
-    /**
-     * @param mixed $actual
-     */
-    public static function nan($actual, ?string $description = null): void
+    public static function nan(mixed $actual, ?string $description = null): void
     {
         NetteAssert::nan($actual, $description);
     }
 
-    /**
-     * @param mixed $actual
-     */
-    public static function truthy($actual, ?string $description = null): void
+    public static function truthy(mixed $actual, ?string $description = null): void
     {
         NetteAssert::truthy($actual, $description);
     }
 
-    /**
-     * @param mixed $actual
-     */
-    public static function falsey($actual, ?string $description = null): void
+    public static function falsey(mixed $actual, ?string $description = null): void
     {
         NetteAssert::falsey($actual, $description);
     }
 
     /**
-     * @param mixed[]|Countable $actualValue
+     * @param array<mixed>|Countable $actualValue
      */
-    public static function count($actualValue, int $expectedCount, ?string $description = null): void
+    public static function count(array|Countable $actualValue, int $expectedCount, ?string $description = null): void
     {
         NetteAssert::count($expectedCount, $actualValue, $description);
     }
 
-    /**
-     * @param mixed $actualValue
-     * @param string|object $expectedType
-     */
-    public static function type($actualValue, $expectedType, ?string $description = null): void
+    public static function type(mixed $actualValue, string|object $expectedType, ?string $description = null): void
     {
         NetteAssert::type($expectedType, $actualValue, $description);
     }
 
     /**
-     * @param mixed|int|null $code
+     * @param class-string<Throwable> $class
      */
-    public static function exception(callable $function, string $class, ?string $message = null, $code = null): ?Throwable
+    public static function exception(callable $function, string $class, ?string $message = null, int|string|null $code = null): ?Throwable
     {
         return NetteAssert::exception($function, $class, $message, $code);
     }
 
     /**
-     * @param mixed|int|null $code
+     * @param class-string<Throwable> $class
      */
-    public static function throws(callable $function, string $class, ?string $message = null, $code = null): ?Throwable
+    public static function throws(callable $function, string $class, ?string $message = null, int|string|null $code = null): ?Throwable
     {
         return NetteAssert::exception($function, $class, $message, $code);
     }
 
     /**
-     * @param int|string|mixed[] $expectedType
+     * @param int|string|array<mixed> $expectedType
      */
-    public static function error(callable $function, $expectedType, ?string $expectedMessage = null): ?Throwable
+    public static function error(callable $function, int|string|array $expectedType, ?string $expectedMessage = null): ?Throwable
     {
         return NetteAssert::error($function, $expectedType, $expectedMessage);
     }
@@ -211,27 +174,17 @@ class Assert
         NetteAssert::error($function, []);
     }
 
-    /**
-     * @param mixed $actualValue
-     */
-    public static function match($actualValue, string $pattern, ?string $description = null): void
+    public static function match(string $actualValue, string $pattern, ?string $description = null): void
     {
         NetteAssert::match($pattern, $actualValue, $description);
     }
 
-    /**
-     * @param mixed $actualValue
-     */
-    public static function matchFile($actualValue, string $file, ?string $description = null): void
+    public static function matchFile(string $actualValue, string $file, ?string $description = null): void
     {
         NetteAssert::matchFile($file, $actualValue, $description);
     }
 
-    /**
-     * @param mixed|null $actual
-     * @param mixed|null $expected
-     */
-    public static function fail(string $message, $actual = null, $expected = null): void
+    public static function fail(string $message, mixed $actual = null, mixed $expected = null): void
     {
         NetteAssert::fail($message, $expected, $actual);
     }
@@ -239,12 +192,10 @@ class Assert
     /**
      * Added support for comparing object with Equalable interface
      *
-     * @param mixed $expected
-     * @param mixed $actual
      * @param SplObjectStorage<object, mixed>|null $objects
      * @internal
      */
-    public static function isEqual($expected, $actual, int $level = 0, ?SplObjectStorage $objects = null): bool
+    public static function isEqual(mixed $expected, mixed $actual, int $level = 0, ?SplObjectStorage $objects = null): bool
     {
         switch (true) {
             case $level > 10:
@@ -257,7 +208,7 @@ class Assert
                 $diff = abs($expected - $actual);
 
                 return ($diff < self::EPSILON) || ($diff / max(abs($expected), abs($actual)) < self::EPSILON);
-            case is_object($expected) && is_object($actual) && get_class($expected) === get_class($actual):
+            case is_object($expected) && is_object($actual) && $expected::class === $actual::class:
                 /* start */
                 if ($expected instanceof Equalable && $actual instanceof Equalable) {
                     return $expected->equals($actual);
@@ -303,9 +254,9 @@ class Assert
     }
 
     /**
-     * @param mixed $obj
+     * @param class-string|object $obj
      */
-    public static function with($obj, Closure $closure): void
+    public static function with(object|string $obj, Closure $closure): void
     {
         NetteAssert::with($obj, $closure);
     }

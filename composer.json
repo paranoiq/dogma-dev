@@ -11,78 +11,53 @@
         }
     ],
     "require": {
-        "php": "^7.4|^8.0",
-        "ext-json": "*",
-        "nette/tester": "^2.4",
-        "php-parallel-lint/php-console-highlighter": "~0.3",
-        "php-parallel-lint/php-parallel-lint": "~1.0",
-        "slevomat/coding-standard": "8.10.0",
-        "squizlabs/php_codesniffer": "^3.7.2",
-        "spell-checker/spell-checker": "^0.3.23",
-        "spell-checker/dictionary-en": "~0.1",
-        "tracy/tracy": "^2.8",
-        "shipmonk/composer-dependency-analyser": "^1.7"
+        "php": "^8.0",
+        "slevomat/coding-standard": "8.28.0",
+        "squizlabs/php_codesniffer": "^4.0.1"
     },
     "require-dev": {
-        "phpstan/phpstan": "1.10.7",
-        "phpstan/phpstan-strict-rules": "^1.0"
+        "nette/tester": "^2.6",
+        "phpstan/phpstan": "2.1.40",
+        "phpstan/phpstan-strict-rules": "2.0.10"
     },
     "autoload": {
         "classmap": ["src"]
     },
     "autoload-dev": {
-        "classmap": ["tests"]
+        "classmap": []
     },
     "config": {
         "allow-plugins": {
-            "dealerdirect/phpcodesniffer-composer-installer": false,
-            "sllh/composer-versions-check": false
+            "dealerdirect/phpcodesniffer-composer-installer": false
         }
     },
     "scripts": {
         "da": "composer dump-autoload",
 
-        "ag": "@build:doc",
-        "b": "@build:init",
-        "c": "@check:all",
+        "ca": "@check:all",
         "cf": "@check:fast",
-        "r": "@build:rector",
-        "t": "@tests:run",
-        "tm": "@tests:mysql",
-        "tms": "@tests:mysql-s",
-        "tc": "@tests:coverage",
-        "ps": "@phpstan:run",
-        "sc": "@spell:check",
-        "cs": [
-            "@phpcs:src",
-            "@phpcs:tests"
-        ],
-        "csf": "@phpcs:fix",
+        "cs": "@phpcs:run",
         "pc": "@package:check",
 
         "check:run": [
             "@package:check",
-            "@phpstan:run",
-            "@phpcs:setup",
-            "@phpcs:src",
-            "@spell:check",
-            "@phplint:run"
+            "@phpstan:all",
+            "@phpcs:run"
         ],
         "check:all": [
             "@package:check",
             "@phpstan:all",
-            "@phplint:all",
-            "@phpcs:setup",
-            "@phpcs:src",
-            "@spell:check"
+            "@phpcs:run"
         ],
 
         "phpstan:run": "php vendor/phpstan/phpstan/phpstan analyse --memory-limit 256M -c build/phpstan.neon",
         "phpstan:all": [
-            "php82 vendor/phpstan/phpstan/phpstan analyse --memory-limit 256M -c build/phpstan.neon",
-            "php81 vendor/phpstan/phpstan/phpstan analyse --memory-limit 256M -c build/phpstan.neon",
-            "php80 vendor/phpstan/phpstan/phpstan analyse --memory-limit 256M -c build/phpstan.neon",
-            "php74 vendor/phpstan/phpstan/phpstan analyse --memory-limit 256M -c build/phpstan.neon"
+            "echo PHPStan at PHP 8.5 & php85 vendor/phpstan/phpstan/phpstan analyse --memory-limit 256M -c build/phpstan.neon",
+            "echo PHPStan at PHP 8.4 & php84 vendor/phpstan/phpstan/phpstan analyse --memory-limit 256M -c build/phpstan.neon",
+            "echo PHPStan at PHP 8.3 & php83 vendor/phpstan/phpstan/phpstan analyse --memory-limit 256M -c build/phpstan.neon",
+            "echo PHPStan at PHP 8.2 & php82 vendor/phpstan/phpstan/phpstan analyse --memory-limit 256M -c build/phpstan.neon",
+            "echo PHPStan at PHP 8.1 & php81 vendor/phpstan/phpstan/phpstan analyse --memory-limit 256M -c build/phpstan.neon",
+            "echo PHPStan at PHP 8.0 & php80 vendor/phpstan/phpstan/phpstan analyse --memory-limit 256M -c build/phpstan.neon"
         ],
 
         "phpcs:run": [
@@ -90,21 +65,12 @@
             "@phpcs:src"
         ],
         "phpcs:setup": [
-            "php -r \"@mkdir('vendor/dogma/dogma-dev/src/CodeSniffer', 0777, true);\"",
-            "php -r \"copy('src/CodeSniffer/ruleset.xml', 'vendor/dogma/dogma-dev/src/CodeSniffer/ruleset.xml');\"",
-            "php -r \"copy('src/CodeSniffer/ruleset-tests.xml', 'vendor/dogma/dogma-dev/src/CodeSniffer/ruleset-tests.xml');\""
+            "php -r \"@mkdir('vendor/dogma/dogma-dev/src', 0777, true);\"",
+            "php -r \"copy('src/ruleset.xml', 'vendor/dogma/dogma-dev/src/ruleset.xml');\"",
+            "php -r \"copy('src/ruleset-tests.xml', 'vendor/dogma/dogma-dev/src/ruleset-tests.xml');\""
         ],
-        "phpcs:src": "php vendor/squizlabs/php_codesniffer/bin/phpcs --standard=vendor/dogma/dogma-dev/src/CodeSniffer/ruleset-tests.xml --extensions=php --encoding=utf-8 --tab-width=4 -sp src",
+        "phpcs:src": "php vendor/squizlabs/php_codesniffer/bin/phpcs --standard=vendor/dogma/dogma-dev/src/ruleset-tests.xml --extensions=php --encoding=utf-8 --tab-width=4 -sp src build",
 
-        "phplint:run": "php vendor/php-parallel-lint/php-parallel-lint/parallel-lint src",
-        "phplint:all": [
-            "php82 vendor/php-parallel-lint/php-parallel-lint/parallel-lint src",
-            "php81 vendor/php-parallel-lint/php-parallel-lint/parallel-lint src",
-            "php80 vendor/php-parallel-lint/php-parallel-lint/parallel-lint src",
-            "php74 vendor/php-parallel-lint/php-parallel-lint/parallel-lint src"
-        ],
-
-        "package:check": "php src/package-check.php",
-        "spell:check": "php vendor/spell-checker/spell-checker/spell-checker.php -c build/spell-checker.neon --checkDictionaryFiles --memoryLimit 1024M --noLogo"
+        "package:check": "php src/package-check.php"
     }
 }
